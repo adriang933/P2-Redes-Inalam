@@ -36,6 +36,8 @@ Include Files
 #include "thread_app_callbacks.h"
 #include "thread_attributes.h"
 
+#include "Timer.h"
+
 #include "app_init.h"
 #include "app_stack_config.h"
 #include "app_thread_config.h"
@@ -79,7 +81,7 @@ Private macros
 #define APP_LED_URI_PATH                        "/led"
 #define APP_TEMP_URI_PATH                       "/temp"
 #define APP_SINK_URI_PATH                       "/sink"
-#define APP_RESOURCE1_URI_PATH                       "/resource1"
+#define APP_RESOURCE1_URI_PATH                       "/team3"
 #define APP_RESOURCE2_URI_PATH                       "/resource2"
 
 #if LARGE_NETWORK
@@ -272,7 +274,7 @@ void APP_Init
 {
     /* Initialize pointer to application task message queue */
     mpAppThreadMsgQueue = &appThreadMsgQueue;
-
+    MyTask_Init();
     /* Initialize main thread message queue */
     ListInit(&appThreadMsgQueue.msgQueue,APP_MSG_QUEUE_SIZE);
 
@@ -295,6 +297,7 @@ void APP_Init
     {
         /* Initialize CoAP demo */
         APP_InitCoapDemo();
+
 
 #if USE_TEMPERATURE_SENSOR
         /* Initialize Temperature sensor/ADC module*/
@@ -402,6 +405,7 @@ void Stack_to_APP_Handler
             break;
 
         case gThrEv_NwkJoinCnf_Success_c:
+        	 MyTaskTimer_Start();
         case gThrEv_NwkJoinCnf_Failed_c:
             APP_JoinEventsHandler(pEventParams->code);
             break;
@@ -512,6 +516,7 @@ void APP_Commissioning_Handler
             App_UpdateStateLeds(gDeviceState_FactoryDefault_c);
             break;
         case gThrEv_MeshCop_JoinerAccepted_c:
+
             break;
 
         /* Commissioner Events(event set applies for all Commissioners: on-mesh, external, native) */

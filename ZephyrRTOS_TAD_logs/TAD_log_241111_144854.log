@@ -1,0 +1,12 @@
+"Task Aware Debugger for GDB" version 11.6.0 (202206271353)
+(c) 2016-2022 NXP Semiconductors, Inc.
+==================================
+14:45:31.721 INFO: [ZephyrRTOS] C:\Users\adrgm\Documents\MCUXpressoIDE_11.6.0_8187\workspace\Thread\frdmkw41z_wireless_examples_thread_router_eligible_device_freertos\Debug\.config file could not be read
+14:45:31.721 INFO: [TadModel] DSF session ID 10 has started.
+14:45:44.310 INFO: [TadState] TAD state changed: DEBUG_STARTED -> DEBUG_INIT_0 (RESUMED, USER_REQUEST)
+14:45:44.352 INFO: [TadState] TAD state changed: DEBUG_INIT_0 -> DEBUG_INIT_1 (SUSPENDED, SIGNAL)
+14:46:00.939 INFO: [TadState] TAD state changed: DEBUG_INIT_1 -> DEBUG_SUSPENDED (RESUMED, USER_REQUEST)
+14:46:01.12 INFO: [TadState] TAD state changed: DEBUG_SUSPENDED -> DEBUG_SUSPENDED (SUSPENDED, BREAKPOINT)
+14:46:10.417 INFO: [TadState] TAD state changed: DEBUG_SUSPENDED -> DEBUG_RESUMED (RESUMED, USER_REQUEST)
+14:48:52.69 INFO: [TadState] TAD state changed: DEBUG_RESUMED -> READY (SUSPENDED, SIGNAL)
+14:48:54.309 INFO: [TadModel] DSF session ID 10 has ended.
