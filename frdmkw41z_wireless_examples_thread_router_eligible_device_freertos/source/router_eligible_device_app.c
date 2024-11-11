@@ -405,7 +405,6 @@ void Stack_to_APP_Handler
             break;
 
         case gThrEv_NwkJoinCnf_Success_c:
-        	 MyTaskTimer_Start();
         case gThrEv_NwkJoinCnf_Failed_c:
             APP_JoinEventsHandler(pEventParams->code);
             break;
@@ -544,6 +543,7 @@ void APP_Commissioning_Handler
         case gThrEv_MeshCop_CommissionerJoinerDtlsError_c:
             break;
         case gThrEv_MeshCop_CommissionerJoinerAccepted_c:
+        		MyTaskTimer_Start();
             break;
         case gThrEv_MeshCop_CommissionerNwkDataSynced_c:
             break;

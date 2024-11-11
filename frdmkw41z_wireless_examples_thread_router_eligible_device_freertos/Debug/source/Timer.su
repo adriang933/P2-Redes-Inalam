@@ -1,6 +1,6 @@
 ../source/Timer.c:28:6:My_Task	24	static
-../source/Timer.c:83:13:myTaskTimerCallback	8	static
-../source/Timer.c:74:6:MyTask_Init	8	static
-../source/Timer.c:89:6:MyTaskTimer_Stop	8	static
-../source/Timer.c:94:6:MyTaskTimer_Start	8	static
-../source/Timer.c:99:10:returnCounterValue	0	static
+../source/Timer.c:85:13:myTaskTimerCallback	8	static
+../source/Timer.c:76:6:MyTask_Init	8	static
+../source/Timer.c:91:6:MyTaskTimer_Stop	8	static
+../source/Timer.c:96:6:MyTaskTimer_Start	8	static
+../source/Timer.c:101:10:returnCounterValue	0	static

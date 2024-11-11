@@ -55,9 +55,11 @@ myTaskTimerCallback function */
 	  if(gCounter == 200){
 		  gCounter = 0;
 		  shell_writeDec(gCounter);
+		  shell_write("\r\n");
 	  }else{
 		  gCounter++;
 		  shell_writeDec(gCounter);
+		  shell_write("\r\n");
 	  }
 
    break;
