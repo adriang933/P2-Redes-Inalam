@@ -1,0 +1,2 @@
+../framework/LowPower/Source/MKW41Z/PWRLib.c:1045:27:PWRLib_LVD_CollectLevel	0	static
+../framework/LowPower/Source/MKW41Z/PWRLib.c:1217:6:PWRLib_Init	0	static
