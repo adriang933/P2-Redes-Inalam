@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
-		<item key="selection" value="EvCode"/>
+		<item key="selection" value="&apos;NON&apos; packet received"/>
 		<item key="wrap" value="true"/>
 		<item key="casesensitive" value="false"/>
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
+			<item value="&apos;NON&apos; packet received"/>
+			<item value="FLib_MemCpy"/>
 			<item value="evCode"/>
 			<item value="App_HandleKeyboard"/>
 			<item value="APP_AppModeHandleKeyboard"/>
@@ -21,8 +23,6 @@
 			<item value="COAP_CreateInstance"/>
 			<item value="gCoapConfirmable_c"/>
 			<item value="shell_writeN"/>
-			<item value="APP_Commissioning_Handler"/>
-			<item value="Joiner accepted"/>
 		</list>
 		<list key="replacehistory">
 			<item value=""/>

@@ -179,6 +179,8 @@ uint32_t leaderLedTimestamp = 0;
 /* Pointer application task message queue */
 taskMsgQueue_t *mpAppThreadMsgQueue = NULL;
 
+uint32_t SourceAddress [16];
+
 extern bool_t gEnable802154TxLed;
 
 /*==================================================================================================
@@ -264,6 +266,8 @@ uint32_t dataLen
       shell_write("'NON' packet received 'POST' with payload: ");
       shell_writeN(pData, dataLen);
       shell_write("\r\n");
+      FLib_MemCpy(&SourceAddress,&pSession->localAddr,sizeof(ipAddr_t));
+      shell_writeN((char*)SourceAddress,1);
   }
 }
 
