@@ -234,6 +234,23 @@ uint32_t dataLen
     if (gCoapPOST_c == pSession->code)
     {
       shell_write("'NON' packet received 'POST' with payload: ");
+
+      shell_writeHex(&pSession->localAddr.addr8[0],1);
+      shell_writeHex(&pSession->localAddr.addr8[1],1);
+      shell_writeHex(&pSession->localAddr.addr8[2],1);
+      shell_writeHex(&pSession->localAddr.addr8[3],1);
+      shell_writeHex(&pSession->localAddr.addr8[4],1);
+      shell_writeHex(&pSession->localAddr.addr8[5],1);
+      shell_writeHex(&pSession->localAddr.addr8[6],1);
+      shell_writeHex(&pSession->localAddr.addr8[7],1);
+      shell_writeHex(&pSession->localAddr.addr8[8],1);
+      shell_writeHex(&pSession->localAddr.addr8[9],1);
+      shell_writeHex(&pSession->localAddr.addr8[10],1);
+      shell_writeHex(&pSession->localAddr.addr8[11],1);
+      shell_writeHex(&pSession->localAddr.addr8[12],1);
+      shell_writeHex(&pSession->localAddr.addr8[13],1);
+      shell_writeHex(&pSession->localAddr.addr8[14],1);
+      shell_writeHex(&pSession->localAddr.addr8[15],1);
     }
     if (gCoapPUT_c == pSession->code)
     {
@@ -266,8 +283,6 @@ uint32_t dataLen
       shell_write("'NON' packet received 'POST' with payload: ");
       shell_writeN(pData, dataLen);
       shell_write("\r\n");
-      FLib_MemCpy(&SourceAddress,&pSession->localAddr,sizeof(ipAddr_t));
-      shell_writeN((char*)SourceAddress,1);
   }
 }
 
