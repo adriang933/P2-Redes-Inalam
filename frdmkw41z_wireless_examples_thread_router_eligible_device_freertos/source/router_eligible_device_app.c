@@ -210,14 +210,47 @@ uint32_t dataLen
     if (gCoapGET_c == pSession->code)
     {
       shell_write("'CON' packet received 'GET' with payload: ");
+		shell_write("\r\n");
+		shell_writeN(pData, dataLen);
+		shell_write("\r\n");
+		pMySession -> msgType=gCoapAcknowledgement_c;
+		pMySession -> code= gCoapPOST_c;
+		pMySession -> pCallback =NULL;
+		FLib_MemCpy(&pMySession->remoteAddrStorage,&gCoapDestAddress,sizeof(ipAddr_t));
+		COAP_Send(pMySession, gCoapMsgTypeConPost_c, pMySessionPayload, pMyPayloadSize);
+		shell_write("Ack Sent with a payload: ");
+		shell_writeN((char*) pMySessionPayload, pMyPayloadSize);
+		shell_write("\r\n");
     }
     if (gCoapPOST_c == pSession->code)
     {
       shell_write("'CON' packet received 'POST' with payload: ");
+      shell_write("\r\n");
+      shell_writeN(pData, dataLen);
+      shell_write("\r\n");
+      pMySession -> msgType=gCoapAcknowledgement_c;
+      pMySession -> code= gCoapPOST_c;
+      pMySession -> pCallback =NULL;
+      FLib_MemCpy(&pMySession->remoteAddrStorage,&gCoapDestAddress,sizeof(ipAddr_t));
+      COAP_Send(pMySession, gCoapMsgTypeConPost_c, pMySessionPayload, pMyPayloadSize);
+      shell_write("Ack Sent with a payload: ");
+      shell_writeN((char*) pMySessionPayload, pMyPayloadSize);
+      shell_write("\r\n");
     }
     if (gCoapPUT_c == pSession->code)
     {
       shell_write("'CON' packet received 'PUT' with payload: ");
+		shell_write("\r\n");
+		shell_writeN(pData, dataLen);
+		shell_write("\r\n");
+		pMySession -> msgType=gCoapAcknowledgement_c;
+		pMySession -> code= gCoapPOST_c;
+		pMySession -> pCallback =NULL;
+		FLib_MemCpy(&pMySession->remoteAddrStorage,&gCoapDestAddress,sizeof(ipAddr_t));
+		COAP_Send(pMySession, gCoapMsgTypeConPost_c, pMySessionPayload, pMyPayloadSize);
+		shell_write("Ack Sent with a payload: ");
+		shell_writeN((char*) pMySessionPayload, pMyPayloadSize);
+		shell_write("\r\n");
     }
     if (gCoapFailure_c!=sessionStatus)
     {
@@ -241,13 +274,7 @@ uint32_t dataLen
       shell_write("'NON' packet received 'PUT' with payload: ");
     }
   }
-  shell_writeN(pData, dataLen);
-  shell_write("\r\n");
-  pMySession -> msgType=gCoapNonConfirmable_c;
-  pMySession -> code= gCoapPOST_c;
-  pMySession -> pCallback =NULL;
-  FLib_MemCpy(&pMySession->remoteAddrStorage,&gCoapDestAddress,sizeof(ipAddr_t));
-  COAP_Send(pMySession, gCoapMsgTypeConPost_c, pMySessionPayload, pMyPayloadSize);
+
   shell_write("Received from: ");
   if (pSession->remoteAddrStorage.ss_addr[0] != 0)
   {
@@ -314,11 +341,6 @@ uint32_t dataLen
   	  shell_writeHex(&pSession->remoteAddrStorage.ss_addr[15],1);
     }
 
-
-  	  shell_write("\r\n");
-  shell_write("'NON' packet sent 'POST' with payload: ");
-  shell_writeN((char*) pMySessionPayload, pMyPayloadSize);
-  shell_write("\r\n");
 }
 
 static void APP_CoapResource2Cb
