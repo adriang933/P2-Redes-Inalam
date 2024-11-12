@@ -235,22 +235,6 @@ uint32_t dataLen
     {
       shell_write("'NON' packet received 'POST' with payload: ");
 
-      shell_writeHex(&pSession->localAddr.addr8[0],1);
-      shell_writeHex(&pSession->localAddr.addr8[1],1);
-      shell_writeHex(&pSession->localAddr.addr8[2],1);
-      shell_writeHex(&pSession->localAddr.addr8[3],1);
-      shell_writeHex(&pSession->localAddr.addr8[4],1);
-      shell_writeHex(&pSession->localAddr.addr8[5],1);
-      shell_writeHex(&pSession->localAddr.addr8[6],1);
-      shell_writeHex(&pSession->localAddr.addr8[7],1);
-      shell_writeHex(&pSession->localAddr.addr8[8],1);
-      shell_writeHex(&pSession->localAddr.addr8[9],1);
-      shell_writeHex(&pSession->localAddr.addr8[10],1);
-      shell_writeHex(&pSession->localAddr.addr8[11],1);
-      shell_writeHex(&pSession->localAddr.addr8[12],1);
-      shell_writeHex(&pSession->localAddr.addr8[13],1);
-      shell_writeHex(&pSession->localAddr.addr8[14],1);
-      shell_writeHex(&pSession->localAddr.addr8[15],1);
     }
     if (gCoapPUT_c == pSession->code)
     {
@@ -264,6 +248,74 @@ uint32_t dataLen
   pMySession -> pCallback =NULL;
   FLib_MemCpy(&pMySession->remoteAddrStorage,&gCoapDestAddress,sizeof(ipAddr_t));
   COAP_Send(pMySession, gCoapMsgTypeConPost_c, pMySessionPayload, pMyPayloadSize);
+  shell_write("Received from: ");
+  if (pSession->remoteAddrStorage.ss_addr[0] != 0)
+  {
+	  shell_writeHex(&pSession->remoteAddrStorage.ss_addr[0],1);
+  }
+  if (pSession->remoteAddrStorage.ss_addr[1] != 0)
+    {
+  	  shell_writeHex(&pSession->remoteAddrStorage.ss_addr[1],1);
+    }
+  if (pSession->remoteAddrStorage.ss_addr[2] != 0)
+    {
+  	  shell_writeHex(&pSession->remoteAddrStorage.ss_addr[2],1);
+    }
+  if (pSession->remoteAddrStorage.ss_addr[3] != 0)
+    {
+  	  shell_writeHex(&pSession->remoteAddrStorage.ss_addr[3],1);
+    }
+  if (pSession->remoteAddrStorage.ss_addr[4] != 0)
+    {
+  	  shell_writeHex(&pSession->remoteAddrStorage.ss_addr[4],1);
+    }
+  if (pSession->remoteAddrStorage.ss_addr[5] != 0)
+    {
+  	  shell_writeHex(&pSession->remoteAddrStorage.ss_addr[5],1);
+    }
+  if (pSession->remoteAddrStorage.ss_addr[6] != 0)
+    {
+  	  shell_writeHex(&pSession->remoteAddrStorage.ss_addr[6],1);
+    }
+  if (pSession->remoteAddrStorage.ss_addr[7] != 0)
+    {
+  	  shell_writeHex(&pSession->remoteAddrStorage.ss_addr[7],1);
+    }
+  if (pSession->remoteAddrStorage.ss_addr[8] != 0)
+    {
+  	  shell_writeHex(&pSession->remoteAddrStorage.ss_addr[8],1);
+    }
+  if (pSession->remoteAddrStorage.ss_addr[9] != 0)
+    {
+  	  shell_writeHex(&pSession->remoteAddrStorage.ss_addr[9],1);
+    }
+  if (pSession->remoteAddrStorage.ss_addr[10] != 0)
+    {
+  	  shell_writeHex(&pSession->remoteAddrStorage.ss_addr[10],1);
+    }
+  if (pSession->remoteAddrStorage.ss_addr[11] != 0)
+    {
+  	  shell_writeHex(&pSession->remoteAddrStorage.ss_addr[11],1);
+    }
+  if (pSession->remoteAddrStorage.ss_addr[12] != 0)
+    {
+  	  shell_writeHex(&pSession->remoteAddrStorage.ss_addr[12],1);
+    }
+  if (pSession->remoteAddrStorage.ss_addr[13] != 0)
+    {
+  	  shell_writeHex(&pSession->remoteAddrStorage.ss_addr[13],1);
+    }
+  if (pSession->remoteAddrStorage.ss_addr[14] != 0)
+    {
+  	  shell_writeHex(&pSession->remoteAddrStorage.ss_addr[14],1);
+    }
+  if (pSession->remoteAddrStorage.ss_addr[15] != 0)
+    {
+  	  shell_writeHex(&pSession->remoteAddrStorage.ss_addr[15],1);
+    }
+
+
+  	  shell_write("\r\n");
   shell_write("'NON' packet sent 'POST' with payload: ");
   shell_writeN((char*) pMySessionPayload, pMyPayloadSize);
   shell_write("\r\n");

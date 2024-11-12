@@ -1,4 +1,4 @@
-11:44:32 **** Incremental Build of configuration Debug for project frdmkw41z_wireless_examples_thread_router_eligible_device_freertos ****
+12:30:53 **** Incremental Build of configuration Debug for project frdmkw41z_wireless_examples_thread_router_eligible_device_freertos ****
 make -r -j8 all 
 Building file: ../source/router_eligible_device_app.c
 Invoking: MCU C Compiler
@@ -43,14 +43,14 @@ C:\Users\adrgm\Documents\MCUXpressoIDE_11.6.0_8187\workspace\Thread\frdmkw41z_wi
   443 | nwkStatus_t COAP_AddOptionToList(coapSession_t* pSession, uint8_t optName, uint8_t* optValue,uint8_t optValueLen);
       |                                                                            ~~~~~~~~~^~~~~~~~
 ../source/router_eligible_device_app.c: In function 'APP_InitCoapDemo':
-../source/router_eligible_device_app.c:609:12: warning: initialization of 'void (*)(coapSessionStatus_t,  uint8_t *, coapSession_t *, uint32_t)' {aka 'void (*)(coapSessionStatus_t,  unsigned char *, struct coapSession_tag *, unsigned int)'} from incompatible pointer type 'void (*)(coapSessionStatus_t,  void *, coapSession_t *, uint32_t)' {aka 'void (*)(coapSessionStatus_t,  void *, struct coapSession_tag *, unsigned int)'} [-Wincompatible-pointer-types]
-  609 |           {APP_CoapResource1Cb, (coapUriPath_t*)&gAPP_RESOURCE1_URI_PATH},
+../source/router_eligible_device_app.c:660:12: warning: initialization of 'void (*)(coapSessionStatus_t,  uint8_t *, coapSession_t *, uint32_t)' {aka 'void (*)(coapSessionStatus_t,  unsigned char *, struct coapSession_tag *, unsigned int)'} from incompatible pointer type 'void (*)(coapSessionStatus_t,  void *, coapSession_t *, uint32_t)' {aka 'void (*)(coapSessionStatus_t,  void *, struct coapSession_tag *, unsigned int)'} [-Wincompatible-pointer-types]
+  660 |           {APP_CoapResource1Cb, (coapUriPath_t*)&gAPP_RESOURCE1_URI_PATH},
       |            ^~~~~~~~~~~~~~~~~~~
-../source/router_eligible_device_app.c:609:12: note: (near initialization for 'cbParams[3].pCallback')
-../source/router_eligible_device_app.c:610:12: warning: initialization of 'void (*)(coapSessionStatus_t,  uint8_t *, coapSession_t *, uint32_t)' {aka 'void (*)(coapSessionStatus_t,  unsigned char *, struct coapSession_tag *, unsigned int)'} from incompatible pointer type 'void (*)(coapSessionStatus_t,  void *, coapSession_t *, uint32_t)' {aka 'void (*)(coapSessionStatus_t,  void *, struct coapSession_tag *, unsigned int)'} [-Wincompatible-pointer-types]
-  610 |           {APP_CoapResource2Cb, (coapUriPath_t*)&gAPP_RESOURCE2_URI_PATH}};
+../source/router_eligible_device_app.c:660:12: note: (near initialization for 'cbParams[3].pCallback')
+../source/router_eligible_device_app.c:661:12: warning: initialization of 'void (*)(coapSessionStatus_t,  uint8_t *, coapSession_t *, uint32_t)' {aka 'void (*)(coapSessionStatus_t,  unsigned char *, struct coapSession_tag *, unsigned int)'} from incompatible pointer type 'void (*)(coapSessionStatus_t,  void *, coapSession_t *, uint32_t)' {aka 'void (*)(coapSessionStatus_t,  void *, struct coapSession_tag *, unsigned int)'} [-Wincompatible-pointer-types]
+  661 |           {APP_CoapResource2Cb, (coapUriPath_t*)&gAPP_RESOURCE2_URI_PATH}};
       |            ^~~~~~~~~~~~~~~~~~~
-../source/router_eligible_device_app.c:610:12: note: (near initialization for 'cbParams[4].pCallback')
+../source/router_eligible_device_app.c:661:12: note: (near initialization for 'cbParams[4].pCallback')
 In file included from ../source/router_eligible_device_app.c:39:
 ../source/router_eligible_device_app.c: At top level:
 ../source/Timer.h:31:13: warning: 'myTaskTimerCallback' declared 'static' but never defined [-Wunused-function]
@@ -64,7 +64,7 @@ arm-none-eabi-gcc -L"C:\Users\adrgm\Documents\MCUXpressoIDE_11.6.0_8187\workspac
 Memory region         Used Size  Region Size  %age Used
     TEXT_region1:         192 B         1 KB     18.75%
 m_flash_config_region:          16 B         16 B    100.00%
-    TEXT_region2:      357003 B     455662 B     78.35%
+    TEXT_region2:      357163 B     455662 B     78.38%
       NVM_region:       65535 B      65535 B    100.00%
     DATA1_region:          0 GB        32 KB      0.00%
     DATA2_region:       61672 B        96 KB     62.74%
@@ -74,8 +74,8 @@ Finished building target: frdmkw41z_wireless_examples_thread_router_eligible_dev
 Performing post-build steps
 arm-none-eabi-size "frdmkw41z_wireless_examples_thread_router_eligible_device_freertos.axf"; # arm-none-eabi-objcopy -v -O binary "frdmkw41z_wireless_examples_thread_router_eligible_device_freertos.axf" "frdmkw41z_wireless_examples_thread_router_eligible_device_freertos.bin" ; # checksum -p MKW41Z512xxx4 -d "frdmkw41z_wireless_examples_thread_router_eligible_device_freertos.bin";
    text	   data	    bss	    dec	    hex	filename
- 357184	  69351	  57864	 484399	  7642f	frdmkw41z_wireless_examples_thread_router_eligible_device_freertos.axf
+ 357344	  69351	  57864	 484559	  764cf	frdmkw41z_wireless_examples_thread_router_eligible_device_freertos.axf
  
 
-11:44:33 Build Finished. 0 errors, 6 warnings. (took 1s.63ms)
+12:30:54 Build Finished. 0 errors, 6 warnings. (took 1s.61ms)
 
