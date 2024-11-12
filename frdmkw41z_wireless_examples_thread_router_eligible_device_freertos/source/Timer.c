@@ -13,14 +13,18 @@
  *      Author: adrgm
  */
 #include "Timer.h"
-
+ coapSession_t *pMySession = NULL;
+ ipAddr_t Dest;
 osaEventId_t          mMyEvents;
+uint8_t mAppCoapInstId2;
 /* Global Variable to store our TimerID */
 tmrTimerID_t myTimerID = gTmrInvalidTimerID_c;
 /* Handler ID for task */
 osaTaskId_t gMyTaskHandler_ID;
 /* Local variable to store the current state of the LEDs */
 uint8_t gCounter = 0;
+
+uint8_t ImR2 = 0;
 
 /* OSA Task Definition*/
 OSA_TASK_DEFINE(My_Task, gMyTaskPriority_c, 1, gMyTaskStackSize_c, FALSE );
@@ -51,15 +55,41 @@ myTaskTimerCallback function */
    );
 
    break;
+  case gMyNewTaskEvent4_c:
+	  ImR2 = 1;
+	  TMR_StartIntervalTimer(myTimerID, /*myTimerID*/
+	       5000, /* Timer's Timeout */
+	       myTaskTimerCallback, /* pointer to
+	  myTaskTimerCallback function */
+	       NULL
+	     );
+
+   break;
   case gMyNewTaskEvent2_c: /* Event called from myTaskTimerCallback */
-	  if(gCounter == 200){
-		  gCounter = 0;
-		  shell_writeDec(gCounter);
-		  shell_write("\r\n");
+
+	  if (ImR2 == 0){
+		  if(gCounter == 200){
+			  gCounter = 0;
+			  shell_writeDec(gCounter);
+			  shell_write("\r\n");
+		  }else{
+			  gCounter++;
+			  shell_writeDec(gCounter);
+			  shell_write("\r\n");
+		  }
 	  }else{
-		  gCounter++;
-		  shell_writeDec(gCounter);
+		  shell_write("Requesting Counter Value");
 		  shell_write("\r\n");
+		  Dest = RetCoapDestAddress();
+		  mAppCoapInstId2 = RetmAppCoapInstId();
+		  pMySession = COAP_OpenSession(mAppCoapInstId2);
+		  COAP_AddOptionToList(pMySession,COAP_URI_PATH_OPTION, APP_RESOURCE2_URI_PATH,SizeOfString(APP_RESOURCE2_URI_PATH));
+			pMySession -> msgType=gCoapConfirmable_c;
+			pMySession -> code= gCoapGET_c;
+			pMySession -> pCallback =NULL;
+			FLib_MemCpy(&pMySession->remoteAddrStorage,&Dest,sizeof(ipAddr_t));
+			COAP_Send(pMySession, gCoapMsgTypeConGet_c, 0, 1);
+			COAP_CloseSession(pMySession);
 	  }
 
    break;
@@ -98,6 +128,11 @@ void MyTaskTimer_Start(void)
 	OSA_EventSet(mMyEvents, gMyNewTaskEvent1_c);
 }
 
-uint32_t returnCounterValue(){
+void MyTaskTimer_StartR2(void)
+{
+	OSA_EventSet(mMyEvents, gMyNewTaskEvent4_c);
+}
+
+uint32_t returnCounterValue(void){
 	return gCounter;
 }

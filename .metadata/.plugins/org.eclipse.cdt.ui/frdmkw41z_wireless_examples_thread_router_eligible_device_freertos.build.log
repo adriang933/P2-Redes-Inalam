@@ -1,11 +1,11 @@
-12:45:48 **** Incremental Build of configuration Debug for project frdmkw41z_wireless_examples_thread_router_eligible_device_freertos ****
+14:13:35 **** Incremental Build of configuration Debug for project frdmkw41z_wireless_examples_thread_router_eligible_device_freertos ****
 make -r -j8 all 
 make[1]: Nothing to be done for 'main-build'.
 Performing post-build steps
 arm-none-eabi-size "frdmkw41z_wireless_examples_thread_router_eligible_device_freertos.axf"; # arm-none-eabi-objcopy -v -O binary "frdmkw41z_wireless_examples_thread_router_eligible_device_freertos.axf" "frdmkw41z_wireless_examples_thread_router_eligible_device_freertos.bin" ; # checksum -p MKW41Z512xxx4 -d "frdmkw41z_wireless_examples_thread_router_eligible_device_freertos.bin";
    text	   data	    bss	    dec	    hex	filename
- 357500	  69351	  57864	 484715	  7656b	frdmkw41z_wireless_examples_thread_router_eligible_device_freertos.axf
+ 357736	  69351	  57896	 484983	  76677	frdmkw41z_wireless_examples_thread_router_eligible_device_freertos.axf
  
 
-12:45:49 Build Finished. 0 errors, 0 warnings. (took 409ms)
+14:13:36 Build Finished. 0 errors, 0 warnings. (took 414ms)
 

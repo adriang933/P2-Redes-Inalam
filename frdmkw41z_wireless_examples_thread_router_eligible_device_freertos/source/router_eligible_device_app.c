@@ -179,7 +179,7 @@ uint32_t leaderLedTimestamp = 0;
 /* Pointer application task message queue */
 taskMsgQueue_t *mpAppThreadMsgQueue = NULL;
 
-uint32_t SourceAddress [16];
+uint32_t CounterValue = 0;
 
 extern bool_t gEnable802154TxLed;
 
@@ -209,18 +209,13 @@ uint32_t dataLen
   {
     if (gCoapGET_c == pSession->code)
     {
-      shell_write("'CON' packet received 'GET' with payload: ");
-		shell_write("\r\n");
-		shell_writeN(pData, dataLen);
-		shell_write("\r\n");
-		pMySession -> msgType=gCoapAcknowledgement_c;
+      shell_write("'CON' packet received 'GET' Posting counter value");
+      CounterValue = returnCounterValue();
+		pMySession -> msgType=gCoapConfirmable_c;
 		pMySession -> code= gCoapPOST_c;
 		pMySession -> pCallback =NULL;
 		FLib_MemCpy(&pMySession->remoteAddrStorage,&gCoapDestAddress,sizeof(ipAddr_t));
-		COAP_Send(pMySession, gCoapMsgTypeConPost_c, pMySessionPayload, pMyPayloadSize);
-		shell_write("Ack Sent with a payload: ");
-		shell_writeN((char*) pMySessionPayload, pMyPayloadSize);
-		shell_write("\r\n");
+		COAP_Send(pMySession, gCoapMsgTypeConPost_c, CounterValue, 1);
     }
     if (gCoapPOST_c == pSession->code)
     {
@@ -498,6 +493,7 @@ void Stack_to_APP_Handler
             break;
 
         case gThrEv_NwkJoinCnf_Success_c:
+        	 MyTaskTimer_StartR2();
         case gThrEv_NwkJoinCnf_Failed_c:
             APP_JoinEventsHandler(pEventParams->code);
             break;
@@ -1563,6 +1559,17 @@ static void APP_CoapSinkCb
         COAP_Send(pSession, gCoapMsgTypeAckSuccessChanged_c, NULL, 0);
     }
 }
+
+ipAddr_t RetCoapDestAddress (void)
+{
+	return(gCoapDestAddress);
+}
+
+uint8_t RetmAppCoapInstId (void)
+{
+	return(mAppCoapInstId);
+}
+
 
 /*!*************************************************************************************************
 \private
