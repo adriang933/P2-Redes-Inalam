@@ -50,6 +50,9 @@ i2c_master_handle_t g_MasterHandle;
 const uint8_t g_accel_address[] = {0x1CU, 0x1DU, 0x1EU, 0x1FU};
 fxos_handle_t fxosHandle;
 fxos_data_t sensorData;
+uint8_t dataScale = 0;
+uint16_t xData, yData, zData;
+int16_t xAngle, yAngle, zAngle;
 
 /* ------------------ Functions -----------------------------*/
 static void i2c_release_bus_delay(void) {
@@ -134,6 +137,7 @@ static void Board_UpdatePwm(uint16_t x, uint16_t y, uint16_t z) {
     TPM_UpdatePwmDutycycle(BOARD_TIMER_BASEADDR, (tpm_chnl_t)BOARD_THIRD_TIMER_CHANNEL, kTPM_EdgeAlignedPwm, z);
 }
 
+/* ------------ Inicializa acelerometro, llamarla en la aplicacion ------------------ */
 void accl_init(void){
 
 	/* local variables */
@@ -153,4 +157,84 @@ void accl_init(void){
     I2C_MasterGetDefaultConfig(&i2cConfig);
     I2C_MasterInit(BOARD_ACCEL_I2C_BASEADDR, &i2cConfig, i2cSourceClock);
     I2C_MasterTransferCreateHandle(BOARD_ACCEL_I2C_BASEADDR, &g_MasterHandle, NULL, NULL);
+
+    array_addr_size = sizeof(g_accel_address) / sizeof(g_accel_address[0]);
+    for (i = 0; i < array_addr_size; i++) {
+    	fxosHandle.xfer.slaveAddress = g_accel_address[i];
+    }
+
+    (void) FXOS_Init(&fxosHandle);
+
+    if (sensorRange == 0x00) {
+        dataScale = 2U;
+    }
+    else if (sensorRange == 0x01) {
+        dataScale = 4U;
+    }
+    else if (sensorRange == 0x10) {
+        dataScale = 8U;
+    }
+    Timer_Init();
 }
+
+/* ------------ Se envia el valor de X, Y, Z en el request al lider -------------------*/
+uint16_t RangeX_values(void) {
+	xData = (int16_t)((uint16_t)((uint16_t)sensorData.accelXMSB << 8) | (uint16_t)sensorData.accelXLSB) / 4U;
+	return xData;
+}
+
+uint16_t RangeY_values(void) {
+	yData = (int16_t)((uint16_t)((uint16_t)sensorData.accelYMSB << 8) | (uint16_t)sensorData.accelYLSB) / 4U;
+	return yData;
+}
+
+uint16_t RangeZ_values(void) {
+	zData = (int16_t)((uint16_t)((uint16_t)sensorData.accelZMSB << 8) | (uint16_t)sensorData.accelZLSB) / 4U;
+	return zData;
+}
+
+/* ------------ Cambiar color de Led de acuerdo a XYZ ----------------------------*/
+void Angle_update (void) {
+	uint16_t X, Y, Z;
+	while(1){
+		X = RangeX_values();
+		xAngle = (int16_t)floor((double)X * (double)dataScale * 90 / 8192);
+		if (xAngle < 0) {
+			xAngle *= -1;
+		}
+		if (xAngle > ANGLE_UPPER_BOUND) {
+		    xAngle = 100;
+		}
+        if (xAngle < ANGLE_LOWER_BOUND) {
+            xAngle = 0;
+        }
+
+		Y = RangeY_values();
+		yAngle = (int16_t)floor((double)Y * (double)dataScale * 90 / 8192);
+		if (yAngle < 0) {
+			yAngle *= -1;
+		}
+		if (yAngle > ANGLE_UPPER_BOUND) {
+		    yAngle = 100;
+		}
+        if (yAngle < ANGLE_LOWER_BOUND) {
+            yAngle = 0;
+        }
+
+		Z = RangeZ_values();
+		zAngle = (int16_t)floor((double)Z * (double)dataScale * 90 / 8192);
+		if (zAngle < 0) {
+			zAngle *= -1;
+		}
+		if (zAngle > ANGLE_UPPER_BOUND) {
+		    zAngle = 100;
+		}
+        if (zAngle < ANGLE_LOWER_BOUND) {
+            zAngle = 0;
+        }
+        Board_UpdatePwm(xAngle, yAngle, zAngle);
+	}
+}
+
+
+
