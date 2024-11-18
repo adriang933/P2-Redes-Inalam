@@ -24,7 +24,7 @@
 ../nwk_ip/base/utils/mac_abs_802154.c:401:17:MAC_GetExtendedAddress	16	static
 ../nwk_ip/base/utils/mac_abs_802154.c:341:17:MAC_GetShortAddress	16	static
 ../nwk_ip/base/utils/mac_abs_802154.c:301:17:MAC_GetPANId	16	static
-../nwk_ip/base/utils/mac_abs_802154.c:1251:27:MAC_MlmeSetReq	80	static
+../nwk_ip/base/utils/mac_abs_802154.c:1251:27:MAC_MlmeSetReq	72	static
 ../nwk_ip/base/utils/mac_abs_802154.c:267:13:MAC_SetMlmeCallbacks	8	static
 ../nwk_ip/base/utils/mac_abs_802154.c:563:17:MAC_GetMaxMsduSize	64	static
 ../nwk_ip/base/utils/mac_abs_802154.c:1335:28:MAC_MlmeScanReq	24	static
@@ -35,13 +35,13 @@
 ../nwk_ip/base/utils/mac_abs_802154.c:1453:13:MAC_MlmePollReq	32	static
 ../nwk_ip/base/utils/mac_abs_802154.c:1218:27:MAC_McpsPurgeReq	16	static
 ../nwk_ip/base/utils/mac_abs_802154.c:1092:27:MAC_McpsDataReq	32	static
-../nwk_ip/base/utils/mac_abs_802154.c:1513:13:MAC_MlmeBeaconNotifyIndCB	40	static
+../nwk_ip/base/utils/mac_abs_802154.c:1513:13:MAC_MlmeBeaconNotifyIndCB	32	static
 ../nwk_ip/base/utils/mac_abs_802154.c:1687:13:MAC_MlmeCommStatusIndCB	32	static
 ../nwk_ip/base/utils/mac_abs_802154.c:1793:13:MAC_MlmePollCnfCB	16	static
 ../nwk_ip/base/utils/mac_abs_802154.c:1015:13:MAC_McpsDataCnfCB	32	static
 ../nwk_ip/base/utils/mac_abs_802154.c:1765:13:MAC_MlmePollIndCB	24	static
 ../nwk_ip/base/utils/mac_abs_802154.c:830:21:MLME_NWK_SapHandlerCB	8	static
 ../nwk_ip/base/utils/mac_abs_802154.c:756:21:MCPS_NWK_SapHandlerCB	16	static
-../nwk_ip/base/utils/mac_abs_802154.c:878:13:MAC_McpsDataIndCB	56	static
+../nwk_ip/base/utils/mac_abs_802154.c:878:13:MAC_McpsDataIndCB	48	static
 ../nwk_ip/base/utils/mac_abs_802154.c:792:13:MCPS_NWK_SapHandlerInternal	8	static
 ../nwk_ip/base/utils/mac_abs_802154.c:238:19:MAC_RegisterAbsCb_802154	8	static

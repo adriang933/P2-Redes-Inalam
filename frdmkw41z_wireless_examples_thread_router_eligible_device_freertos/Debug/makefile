@@ -52,8 +52,6 @@ RM := rm -rf
 -include drivers/subdir.mk
 -include board/subdir.mk
 -include CMSIS/subdir.mk
--include objects.mk
-
 ifneq ($(MAKECMDGOALS),clean)
 ifneq ($(strip $(C_DEPS)),)
 -include $(C_DEPS)
@@ -83,10 +81,10 @@ all:
 main-build: frdmkw41z_wireless_examples_thread_router_eligible_device_freertos.axf
 
 # Tool invocations
-frdmkw41z_wireless_examples_thread_router_eligible_device_freertos.axf: $(OBJS) $(USER_OBJS) makefile objects.mk $(OPTIONAL_TOOL_DEPS)
+frdmkw41z_wireless_examples_thread_router_eligible_device_freertos.axf: $(OBJS) $(USER_OBJS) makefile $(OPTIONAL_TOOL_DEPS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: MCU Linker'
-	arm-none-eabi-gcc -L"C:\Users\adrgm\Documents\MCUXpressoIDE_11.6.0_8187\workspace\Thread\frdmkw41z_wireless_examples_thread_router_eligible_device_freertos\libs" -Xlinker -Map="frdmkw41z_wireless_examples_thread_router_eligible_device_freertos.map" -Xlinker --gc-sections -Xlinker -print-memory-usage -Xlinker --sort-section=alignment -Xlinker --cref -mcpu=cortex-m0plus -mthumb -T MKW41Z512xxx4_connectivity.ld -L ../source -o "frdmkw41z_wireless_examples_thread_router_eligible_device_freertos.axf" $(OBJS) $(USER_OBJS) $(LIBS)
+	arm-none-eabi-gcc -L"S:\Workspace\Inalambrico\practicas\p2\P2-Redes-Inalam\frdmkw41z_wireless_examples_thread_router_eligible_device_freertos\libs" -Xlinker -Map="frdmkw41z_wireless_examples_thread_router_eligible_device_freertos.map" -Xlinker --gc-sections -Xlinker -print-memory-usage -Xlinker --sort-section=alignment -Xlinker --cref -mcpu=cortex-m0plus -mthumb -T MKW41Z512xxx4_connectivity.ld -L ../source -o "frdmkw41z_wireless_examples_thread_router_eligible_device_freertos.axf" $(OBJS) $(USER_OBJS) $(LIBS) -lm -lc -lgcc -lnosys -l_crypto_m0 -l802.15.4_mac_thr_cm0 -l_thread_cm0
 	@echo 'Finished building target: $@'
 	@echo ' '
 

@@ -29,5 +29,5 @@
 ../source/router_eligible_device_app.c:426:6:APP_Handler	8	static
 ../source/router_eligible_device_app.c:451:6:APP_NwkScanHandler	16	static
 ../source/router_eligible_device_app.c:477:6:Stack_to_APP_Handler	16	static
-../source/router_eligible_device_app.c:585:6:APP_Commissioning_Handler	72	static
+../source/router_eligible_device_app.c:585:6:APP_Commissioning_Handler	80	static
 ../source/router_eligible_device_app.c:655:6:App_RestoreLeaderLedCb	8	static
