@@ -10,6 +10,8 @@
 		<item key="caseSensitive" value="true"/>
 		<item key="searchFlags" value="227191"/>
 		<list key="previousPatterns">
+			<item value="bss_init"/>
+			<item value="data_init"/>
 			<item value="shell_write"/>
 			<item value="COAP_CreateInstance"/>
 			<item value="shell_writeN"/>

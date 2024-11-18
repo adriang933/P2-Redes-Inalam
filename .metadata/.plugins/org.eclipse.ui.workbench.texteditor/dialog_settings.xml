@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
-		<item key="selection" value="BOARD_InitPins"/>
+		<item key="selection" value="fxosHandle"/>
 		<item key="wrap" value="true"/>
 		<item key="casesensitive" value="false"/>
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
+			<item value="fxosHandle"/>
+			<item value="data_init"/>
+			<item value="CounterValue"/>
 			<item value="BOARD_InitPins"/>
 			<item value="pSession"/>
 			<item value="MyTaskTimer_StartR2"/>
@@ -20,9 +23,6 @@
 			<item value="App_HandleKeyboard"/>
 			<item value="APP_AppModeHandleKeyboard"/>
 			<item value="APP_ReportTemp"/>
-			<item value="MyTask_Init"/>
-			<item value="MyTask_Init();"/>
-			<item value="APP_ConfigModeSwShortPressHandler"/>
 		</list>
 		<list key="replacehistory">
 			<item value="remoteAddrStorage.ss_addr"/>
