@@ -88,7 +88,6 @@ Private macros
 #define APP_RESET_TO_FACTORY_URI_PATH           "/reset"
 #endif
 
-#define APP_DEFAULT_DEST_ADDR                   in6addr_realmlocal_allthreadnodes
 
 /*==================================================================================================
 Private type definitions

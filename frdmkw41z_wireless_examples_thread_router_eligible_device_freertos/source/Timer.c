@@ -23,7 +23,7 @@ tmrTimerID_t myTimerID = gTmrInvalidTimerID_c;
 osaTaskId_t gMyTaskHandler_ID;
 /* Local variable to store the current state of the LEDs */
 uint8_t gCounter = 0;
-
+static uint8_t pMySessionPayload[1]={0x33};
 uint8_t ImR2 = 0;
 
 /* OSA Task Definition*/
@@ -80,7 +80,17 @@ myTaskTimerCallback function */
 	  }else{
 		  shell_write("Requesting Counter Value");
 		  shell_write("\r\n");
-		  Dest = RetCoapDestAddress();
+		  mAppCoapInstId2 = RetmAppCoapInstId();
+		  pMySession = COAP_OpenSession(mAppCoapInstId2);
+		  ipAddr_t coapDestAddress = APP_DEFAULT_DEST_ADDR;
+		  pMySession -> msgType=gCoapMsgTypeNonPost_c;
+		  pMySession -> code= gCoapPOST_c;
+		  pMySession->pCallback = NULL;
+		  FLib_MemCpy(&pMySession->remoteAddrStorage.ss_addr, &coapDestAddress, sizeof(ipAddr_t));
+		  COAP_Send(pMySession, gCoapMsgTypeNonPost_c, pMySessionPayload, 1);
+		//  COAP_CloseSession(pMySession);
+
+		/*  Dest = RetCoapDestAddress();
 		  mAppCoapInstId2 = RetmAppCoapInstId();
 		  pMySession = COAP_OpenSession(mAppCoapInstId2);
 		  COAP_AddOptionToList(pMySession,COAP_URI_PATH_OPTION, APP_RESOURCE2_URI_PATH,SizeOfString(APP_RESOURCE2_URI_PATH));
@@ -89,7 +99,7 @@ myTaskTimerCallback function */
 			pMySession -> pCallback =NULL;
 			FLib_MemCpy(&pMySession->remoteAddrStorage,&Dest,sizeof(ipAddr_t));
 			COAP_Send(pMySession, gCoapMsgTypeConGet_c, 0, 1);
-			COAP_CloseSession(pMySession);
+			COAP_CloseSession(pMySession);*/
 	  }
 
    break;

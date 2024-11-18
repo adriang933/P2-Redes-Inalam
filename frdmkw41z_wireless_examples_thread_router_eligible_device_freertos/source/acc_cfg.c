@@ -9,7 +9,7 @@
 #include "fsl_debug_console.h"
 #include "board.h"
 #include "math.h"
-#include "fsl_fxos.h"
+//#include "fsl_fxos.h"
 #include "fsl_i2c.h"
 #include "fsl_tpm.h"
 
@@ -135,7 +135,7 @@ static void Board_UpdatePwm(uint16_t x, uint16_t y) {
     TPM_UpdatePwmDutycycle(BOARD_TIMER_BASEADDR, (tpm_chnl_t)BOARD_FIRST_TIMER_CHANNEL, kTPM_EdgeAlignedPwm, x);
     TPM_UpdatePwmDutycycle(BOARD_TIMER_BASEADDR, (tpm_chnl_t)BOARD_SECOND_TIMER_CHANNEL, kTPM_EdgeAlignedPwm, y);
 }
-
+/*
 void accl_init(void){
 	fxosHandle.base = BOARD_ACCEL_I2C_BASEADDR;
 	fxosHandle.i2cHandle = &g_MasterHandle;
@@ -143,4 +143,4 @@ void accl_init(void){
     I2C_MasterGetDefaultConfig(&i2cConfig);
     I2C_MasterInit(BOARD_ACCEL_I2C_BASEADDR, &i2cConfig, i2cSourceClock);
     I2C_MasterTransferCreateHandle(BOARD_ACCEL_I2C_BASEADDR, &g_MasterHandle, NULL, NULL);
-}
+}*/

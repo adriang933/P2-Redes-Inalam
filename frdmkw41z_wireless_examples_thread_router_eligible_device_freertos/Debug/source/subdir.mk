@@ -5,18 +5,21 @@
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
 ../source/Timer.c \
+../source/acc_cfg.c \
 ../source/mtb.c \
 ../source/router_eligible_device_app.c \
 ../source/semihost_hardfault.c 
 
 C_DEPS += \
 ./source/Timer.d \
+./source/acc_cfg.d \
 ./source/mtb.d \
 ./source/router_eligible_device_app.d \
 ./source/semihost_hardfault.d 
 
 OBJS += \
 ./source/Timer.o \
+./source/acc_cfg.o \
 ./source/mtb.o \
 ./source/router_eligible_device_app.o \
 ./source/semihost_hardfault.o 
@@ -34,7 +37,7 @@ source/%.o: ../source/%.c source/subdir.mk
 clean: clean-source
 
 clean-source:
-	-$(RM) ./source/Timer.d ./source/Timer.o ./source/mtb.d ./source/mtb.o ./source/router_eligible_device_app.d ./source/router_eligible_device_app.o ./source/semihost_hardfault.d ./source/semihost_hardfault.o
+	-$(RM) ./source/Timer.d ./source/Timer.o ./source/acc_cfg.d ./source/acc_cfg.o ./source/mtb.d ./source/mtb.o ./source/router_eligible_device_app.d ./source/router_eligible_device_app.o ./source/semihost_hardfault.d ./source/semihost_hardfault.o
 
 .PHONY: clean-source
 
