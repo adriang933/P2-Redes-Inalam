@@ -12,6 +12,7 @@
 #include "TimersManager.h"
 #include "FunctionLib.h"
 #include "LED.h"
+#include "app_init.h"
 /* KSDK */
 #include "fsl_common.h"
 #include "EmbeddedTypes.h"
@@ -27,7 +28,7 @@
 #define gMyNewTaskEvent2_c (1 << 1)
 #define gMyNewTaskEvent3_c (1 << 2)
 #define gMyNewTaskEvent4_c (1 << 3)
-
+#define APP_RESOURCE1_URI_PATH                       "/team3"
 #define gMyTaskPriority_c 3
 #define gMyTaskStackSize_c 400
 void My_Task(osaTaskParam_t argument);
@@ -37,5 +38,6 @@ void MyTask_Init(void);
 void MyTaskTimer_StartR2(void);
 uint32_t returnCounterValue(void);
 static void myTaskTimerCallback(void *param);
+static void CounterASK(uint8_t *pParam);
 
 #endif /* TIMER_H_ */

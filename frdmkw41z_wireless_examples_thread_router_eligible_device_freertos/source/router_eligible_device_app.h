@@ -35,7 +35,11 @@ Public global variables declarations
 ==================================================================================================*/
 
 /* None */
-
+#define APP_LED_URI_PATH                        "/led"
+#define APP_TEMP_URI_PATH                       "/temp"
+#define APP_SINK_URI_PATH                       "/sink"
+#define APP_RESOURCE1_URI_PATH                       "/team3"
+#define APP_RESOURCE2_URI_PATH                       "/resource2"
 /*==================================================================================================
 Public function prototypes
 ==================================================================================================*/

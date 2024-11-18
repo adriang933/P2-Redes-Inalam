@@ -17,7 +17,7 @@ Include Files
 /* General Includes */
 #include "EmbeddedTypes.h"
 #include <string.h>
-
+#include <stdio.h>
 /* FSL Framework */
 #include "shell.h"
 #include "Keyboard.h"
@@ -77,12 +77,6 @@ Private macros
 #define gAppRestoreLeaderLedTimeout_c           60     /* seconds */
 
 #define gAppJoinTimeout_c                       800    /* miliseconds */
-
-#define APP_LED_URI_PATH                        "/led"
-#define APP_TEMP_URI_PATH                       "/temp"
-#define APP_SINK_URI_PATH                       "/sink"
-#define APP_RESOURCE1_URI_PATH                       "/team3"
-#define APP_RESOURCE2_URI_PATH                       "/resource2"
 
 #if LARGE_NETWORK
 #define APP_RESET_TO_FACTORY_URI_PATH           "/reset"
@@ -147,7 +141,6 @@ const coapUriPath_t gAPP_TEMP_URI_PATH = {SizeOfString(APP_TEMP_URI_PATH), (uint
 const coapUriPath_t gAPP_SINK_URI_PATH = {SizeOfString(APP_SINK_URI_PATH), (uint8_t *)APP_SINK_URI_PATH};
 const coapUriPath_t gAPP_RESOURCE1_URI_PATH = {SizeOfString(APP_RESOURCE1_URI_PATH), APP_RESOURCE1_URI_PATH};
 const coapUriPath_t gAPP_RESOURCE2_URI_PATH = {SizeOfString(APP_RESOURCE2_URI_PATH), APP_RESOURCE2_URI_PATH};
-
 #if LARGE_NETWORK
 const coapUriPath_t gAPP_RESET_URI_PATH = {SizeOfString(APP_RESET_TO_FACTORY_URI_PATH), (uint8_t *)APP_RESET_TO_FACTORY_URI_PATH};
 #endif
@@ -214,7 +207,7 @@ uint32_t dataLen
 		pMySession -> code= gCoapPOST_c;
 		pMySession -> pCallback =NULL;
 		FLib_MemCpy(&pMySession->remoteAddrStorage,&gCoapDestAddress,sizeof(ipAddr_t));
-		COAP_Send(pMySession, gCoapMsgTypeConPost_c, CounterValue, 1);
+		COAP_Send(pMySession, gCoapMsgTypeConPost_c, CounterValue, sizeof(CounterValue));
     }
     if (gCoapPOST_c == pSession->code)
     {
@@ -256,7 +249,15 @@ uint32_t dataLen
   {
     if (gCoapGET_c == pSession->code)
     {
-      shell_write("'NON' packet received 'GET' with payload: ");
+      char stringNumero[12];
+      shell_write("'NON' packet received 'GET' Posting counter value");
+      CounterValue = returnCounterValue();
+      sprintf(stringNumero, "%d", CounterValue);
+	  pMySession -> msgType=gCoapNonConfirmable_c;
+	  pMySession -> code= gCoapPOST_c;
+	  pMySession -> pCallback =NULL;
+	  FLib_MemCpy(&pMySession->remoteAddrStorage,&gCoapDestAddress,sizeof(ipAddr_t));
+	  COAP_Send(pMySession, gCoapMsgTypeNonPost_c, stringNumero, sizeof(stringNumero));
     }
     if (gCoapPOST_c == pSession->code)
     {
@@ -682,6 +683,7 @@ static void APP_InitCoapDemo
     NWKU_SetSockAddrInfo(&coapParams, NULL, AF_INET6, COAP_DEFAULT_PORT, 0, gIpIfSlp0_c);
     mAppCoapInstId = COAP_CreateInstance(NULL, &coapParams, (coapRegCbParams_t *)cbParams,
                                          NumberOfElements(cbParams));
+    int aaa  =  0;
 }
 
 /*!*************************************************************************************************
@@ -1568,7 +1570,6 @@ uint8_t RetmAppCoapInstId (void)
 {
 	return(mAppCoapInstId);
 }
-
 
 /*!*************************************************************************************************
 \private

@@ -13,9 +13,11 @@
  *      Author: adrgm
  */
 #include "Timer.h"
- coapSession_t *pMySession = NULL;
+
+const coapUriPath_t gAPP_RESOURCE1_URI_PATHT = {SizeOfString(APP_RESOURCE1_URI_PATH), APP_RESOURCE1_URI_PATH};
  ipAddr_t Dest;
 osaEventId_t          mMyEvents;
+taskMsgQueue_t *mpAppThreadMsgQueue2 = &appThreadMsgQueue;
 uint8_t mAppCoapInstId2;
 /* Global Variable to store our TimerID */
 tmrTimerID_t myTimerID = gTmrInvalidTimerID_c;
@@ -23,7 +25,7 @@ tmrTimerID_t myTimerID = gTmrInvalidTimerID_c;
 osaTaskId_t gMyTaskHandler_ID;
 /* Local variable to store the current state of the LEDs */
 uint8_t gCounter = 0;
-static uint8_t pMySessionPayload[1]={0x33};
+static uint8_t pMySessionPayload[]={"GET"};
 uint8_t ImR2 = 0;
 
 /* OSA Task Definition*/
@@ -80,26 +82,10 @@ myTaskTimerCallback function */
 	  }else{
 		  shell_write("Requesting Counter Value");
 		  shell_write("\r\n");
-		  mAppCoapInstId2 = RetmAppCoapInstId();
-		  pMySession = COAP_OpenSession(mAppCoapInstId2);
-		  ipAddr_t coapDestAddress = APP_DEFAULT_DEST_ADDR;
-		  pMySession -> msgType=gCoapMsgTypeNonPost_c;
-		  pMySession -> code= gCoapPOST_c;
-		  pMySession->pCallback = NULL;
-		  FLib_MemCpy(&pMySession->remoteAddrStorage.ss_addr, &coapDestAddress, sizeof(ipAddr_t));
-		  COAP_Send(pMySession, gCoapMsgTypeNonPost_c, pMySessionPayload, 1);
-		//  COAP_CloseSession(pMySession);
 
-		/*  Dest = RetCoapDestAddress();
-		  mAppCoapInstId2 = RetmAppCoapInstId();
-		  pMySession = COAP_OpenSession(mAppCoapInstId2);
-		  COAP_AddOptionToList(pMySession,COAP_URI_PATH_OPTION, APP_RESOURCE2_URI_PATH,SizeOfString(APP_RESOURCE2_URI_PATH));
-			pMySession -> msgType=gCoapConfirmable_c;
-			pMySession -> code= gCoapGET_c;
-			pMySession -> pCallback =NULL;
-			FLib_MemCpy(&pMySession->remoteAddrStorage,&Dest,sizeof(ipAddr_t));
-			COAP_Send(pMySession, gCoapMsgTypeConGet_c, 0, 1);
-			COAP_CloseSession(pMySession);*/
+		  (void)NWKU_SendMsg(CounterASK, NULL, mpAppThreadMsgQueue2);
+
+		// COAP_CloseSession(pMySession);
 	  }
 
    break;
@@ -145,4 +131,17 @@ void MyTaskTimer_StartR2(void)
 
 uint32_t returnCounterValue(void){
 	return gCounter;
+}
+
+static void CounterASK(uint8_t *pParam){
+	mAppCoapInstId2 = RetmAppCoapInstId();
+    coapSession_t *pMySession = COAP_OpenSession(mAppCoapInstId2);
+    ipAddr_t coapDestAddress = APP_DEFAULT_DEST_ADDR;
+    pMySession -> msgType = gCoapNonConfirmable_c;
+    pMySession -> code = gCoapGET_c;
+    pMySession->pCallback = NULL;
+    FLib_MemCpy(&pMySession->remoteAddrStorage.ss_addr, &coapDestAddress, sizeof(ipAddr_t));
+    pMySession->pUriPath = (coapUriPath_t*)&gAPP_RESOURCE1_URI_PATHT;
+    nwkStatus_t status;
+    status = COAP_Send(pMySession, gCoapMsgTypeNonGet_c, pMySessionPayload, sizeof(pMySessionPayload));
 }
