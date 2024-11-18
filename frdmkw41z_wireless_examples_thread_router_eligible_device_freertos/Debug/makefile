@@ -51,6 +51,7 @@ RM := rm -rf
 -include framework/DCDC/Source/subdir.mk
 -include drivers/subdir.mk
 -include board/subdir.mk
+-include CMSIS_driver/subdir.mk
 -include CMSIS/subdir.mk
 -include objects.mk
 
