@@ -27,7 +27,7 @@
 ../freertos/tasks.c:1231:7:vTaskDelay	8	static
 ../freertos/tasks.c:3372:13:prvCheckTasksWaitingTermination	8	static
 ../freertos/tasks.c:3138:8:prvIdleTask	8	static
-../freertos/tasks.c:2768:6:vTaskSwitchContext	8	static
+../freertos/tasks.c:2768:6:vTaskSwitchContext	12	static
 ../freertos/tasks.c:1573:7:vTaskSuspend	16	static
 ../freertos/tasks.c:2827:6:vTaskPlaceOnEventList	8	static
 ../freertos/tasks.c:2844:6:vTaskPlaceOnUnorderedEventList	16	static
@@ -44,6 +44,7 @@
 ../freertos/tasks.c:3418:7:vTaskGetInfo	24	static
 ../freertos/tasks.c:3507:21:prvListTasksWithinSingleList	32	static
 ../freertos/tasks.c:2328:14:uxTaskGetSystemState	24	static
+../freertos/tasks.c:3560:14:uxTaskGetStackHighWaterMark	8	static
 ../freertos/tasks.c:3668:15:xTaskGetCurrentTaskHandle	0	static
 ../freertos/tasks.c:3685:13:xTaskGetSchedulerState	0	static
 ../freertos/tasks.c:3713:7:vTaskPriorityInherit	16	static

@@ -124,6 +124,7 @@ static void APP_CoapResource1Cb(coapSessionStatus_t sessionStatus, void *pData, 
 
 static void APP_CoapResource2Cb(coapSessionStatus_t sessionStatus, void *pData, coapSession_t *pSession, uint32_t dataLen);
 
+static void APP_CoapAcc(coapSessionStatus_t sessionStatus, void *pData, coapSession_t *pSession, uint32_t dataLen);
 #if LARGE_NETWORK
 static void APP_CoapResetToFactoryDefaultsCb(coapSessionStatus_t sessionStatus, uint8_t *pData, coapSession_t *pSession, uint32_t dataLen);
 static void APP_SendResetToFactoryCommand(uint8_t *param);
@@ -141,6 +142,8 @@ const coapUriPath_t gAPP_TEMP_URI_PATH = {SizeOfString(APP_TEMP_URI_PATH), (uint
 const coapUriPath_t gAPP_SINK_URI_PATH = {SizeOfString(APP_SINK_URI_PATH), (uint8_t *)APP_SINK_URI_PATH};
 const coapUriPath_t gAPP_RESOURCE1_URI_PATH = {SizeOfString(APP_RESOURCE1_URI_PATH), APP_RESOURCE1_URI_PATH};
 const coapUriPath_t gAPP_RESOURCE2_URI_PATH = {SizeOfString(APP_RESOURCE2_URI_PATH), APP_RESOURCE2_URI_PATH};
+const coapUriPath_t gAPP_ACC_URI_PATH = {SizeOfString(APP_ACC_URI_PATH), APP_ACC_URI_PATH};
+const coapUriPath_t gAPP_ACC2_URI_PATH = {SizeOfString(APP_ACC2_URI_PATH), APP_ACC2_URI_PATH};
 #if LARGE_NETWORK
 const coapUriPath_t gAPP_RESET_URI_PATH = {SizeOfString(APP_RESET_TO_FACTORY_URI_PATH), (uint8_t *)APP_RESET_TO_FACTORY_URI_PATH};
 #endif
@@ -172,9 +175,12 @@ uint32_t leaderLedTimestamp = 0;
 taskMsgQueue_t *mpAppThreadMsgQueue = NULL;
 
 uint32_t CounterValue = 0;
+uint32_t Xval = 0;
+uint32_t Yval = 0;
+uint32_t Zval = 0;
 
 extern bool_t gEnable802154TxLed;
-
+uint8_t XYZCounter = 0;
 /*==================================================================================================
 Public functions
 ==================================================================================================*/
@@ -196,12 +202,12 @@ uint32_t dataLen
   coapSession_t *pMySession = NULL;
   pMySession = COAP_OpenSession(mAppCoapInstId);
   COAP_AddOptionToList(pMySession,COAP_URI_PATH_OPTION, APP_RESOURCE2_URI_PATH,SizeOfString(APP_RESOURCE2_URI_PATH));
-
     if (gCoapConfirmable_c == pSession->msgType)
   {
     if (gCoapGET_c == pSession->code)
     {
-      shell_write("'CON' packet received 'GET' Posting counter value");
+      shell_write("(T3)'CON' packet received 'GET' Posting counter value");
+      shell_write("\r\n");
       CounterValue = returnCounterValue();
 		pMySession -> msgType=gCoapConfirmable_c;
 		pMySession -> code= gCoapPOST_c;
@@ -211,7 +217,7 @@ uint32_t dataLen
     }
     if (gCoapPOST_c == pSession->code)
     {
-      shell_write("'CON' packet received 'POST' with payload: ");
+      shell_write("(T3)'CON' packet received 'POST' with payload: ");
       shell_write("\r\n");
       shell_writeN(pData, dataLen);
       shell_write("\r\n");
@@ -220,13 +226,13 @@ uint32_t dataLen
       pMySession -> pCallback =NULL;
       FLib_MemCpy(&pMySession->remoteAddrStorage,&gCoapDestAddress,sizeof(ipAddr_t));
       COAP_Send(pMySession, gCoapMsgTypeConPost_c, pMySessionPayload, pMyPayloadSize);
-      shell_write("Ack Sent with a payload: ");
+      shell_write("(T3) Ack Sent with a payload: ");
       shell_writeN((char*) pMySessionPayload, pMyPayloadSize);
       shell_write("\r\n");
     }
     if (gCoapPUT_c == pSession->code)
     {
-      shell_write("'CON' packet received 'PUT' with payload: ");
+      shell_write("(T3)'CON' packet received 'PUT' with payload: ");
 		shell_write("\r\n");
 		shell_writeN(pData, dataLen);
 		shell_write("\r\n");
@@ -250,7 +256,8 @@ uint32_t dataLen
     if (gCoapGET_c == pSession->code)
     {
       char stringNumero[12];
-      shell_write("'NON' packet received 'GET' Posting counter value");
+      shell_write("(T3)'NON' packet received 'GET' Posting counter value");
+      shell_write("\r\n");
       CounterValue = returnCounterValue();
       sprintf(stringNumero, "%d", CounterValue);
 	  pMySession -> msgType=gCoapNonConfirmable_c;
@@ -261,12 +268,14 @@ uint32_t dataLen
     }
     if (gCoapPOST_c == pSession->code)
     {
-      shell_write("'NON' packet received 'POST' with payload: ");
+      shell_write("(T3)'NON' packet received 'POST' with payload: ");
+      shell_write("\r\n");
 
     }
     if (gCoapPUT_c == pSession->code)
     {
       shell_write("'NON' packet received 'PUT' with payload: ");
+      shell_write("\r\n");
     }
   }
 
@@ -349,12 +358,74 @@ uint32_t dataLen
 {
   if (gCoapNonConfirmable_c == pSession->msgType)
   {
-      shell_write("'NON' packet received 'POST' with payload: ");
+      shell_write(" (R2) 'NON' packet received 'POST' with payload: ");
       shell_writeN(pData, dataLen);
       shell_write("\r\n");
   }
 }
 
+static void APP_CoapAcc
+(
+coapSessionStatus_t sessionStatus,
+void *pData,
+coapSession_t *pSession,
+uint32_t dataLen
+)
+
+{
+	coapSession_t *pMySession = NULL;
+	pMySession = COAP_OpenSession(mAppCoapInstId);
+	COAP_AddOptionToList(pMySession,COAP_URI_PATH_OPTION, APP_ACC2_URI_PATH,SizeOfString(APP_ACC2_URI_PATH));
+	 if (gCoapGET_c == pSession->code)
+	    {
+	      char stringNumeroX[12];
+	      char stringNumeroY[12];
+	      char stringNumeroZ[12];
+	      shell_write("(Accel)'NON' packet received 'GET' Posting ACCEL values");
+	      shell_write("\r\n");
+	      Angle_update();
+	      Xval = RetX();
+	      Yval = RetY();
+	     // Zval = RetZ();
+	      sprintf(stringNumeroX, "%d", Xval);
+	      sprintf(stringNumeroY, "%d", Yval);
+	  //  sprintf(stringNumeroZ, "%d", Zval);
+	      char FinalstringNumeroX[20];
+	      char FinalstringNumeroY[20];
+	    //  char FinalstringNumeroZ[20];
+	      sprintf(FinalstringNumeroX, "X = %s", stringNumeroX);
+	      sprintf(FinalstringNumeroY, "Y = %s", stringNumeroY);
+	     // sprintf(FinalstringNumeroX, "Z = %s", stringNumeroX);
+
+		  pMySession -> msgType=gCoapNonConfirmable_c;
+		  pMySession -> code= gCoapPOST_c;
+		  pMySession -> pCallback =NULL;
+		  FLib_MemCpy(&pMySession->remoteAddrStorage,&gCoapDestAddress,sizeof(ipAddr_t));
+		  COAP_Send(pMySession, gCoapMsgTypeNonPost_c, FinalstringNumeroX, sizeof(FinalstringNumeroX));
+		  COAP_Send(pMySession, gCoapMsgTypeNonPost_c, FinalstringNumeroY, sizeof(FinalstringNumeroY));
+		//  COAP_Send(pMySession, gCoapMsgTypeNonPost_c, stringNumeroZ, sizeof(stringNumeroZ));
+	    }
+
+}
+
+
+static void APP_CoapAcc2
+(
+coapSessionStatus_t sessionStatus,
+void *pData,
+coapSession_t *pSession,
+uint32_t dataLen
+)
+
+{
+	 if (gCoapNonConfirmable_c ==  pSession->msgType)
+	    {
+		    shell_write(" (Accel2) 'NON' packet received 'POST' with payload: ");
+		    shell_writeN(pData, dataLen);
+		   // shell_write("\r\n");
+	    }
+
+}
 void APP_Init
 (
     void
@@ -362,6 +433,7 @@ void APP_Init
 {
     /* Initialize pointer to application task message queue */
     mpAppThreadMsgQueue = &appThreadMsgQueue;
+    accl_init();
     MyTask_Init();
     /* Initialize main thread message queue */
     ListInit(&appThreadMsgQueue.msgQueue,APP_MSG_QUEUE_SIZE);
@@ -676,7 +748,9 @@ static void APP_InitCoapDemo
 #endif
                                      {APP_CoapSinkCb, (coapUriPath_t *)&gAPP_SINK_URI_PATH},
 									 {APP_CoapResource1Cb, (coapUriPath_t*)&gAPP_RESOURCE1_URI_PATH},
-									 {APP_CoapResource2Cb, (coapUriPath_t*)&gAPP_RESOURCE2_URI_PATH}};
+									 {APP_CoapResource2Cb, (coapUriPath_t*)&gAPP_RESOURCE2_URI_PATH},
+									 {APP_CoapAcc, (coapUriPath_t*)&gAPP_ACC_URI_PATH},
+									 {APP_CoapAcc2, (coapUriPath_t*)&gAPP_ACC2_URI_PATH}							};
     /* Register Services in COAP */
     sockaddrStorage_t coapParams = {0};
 

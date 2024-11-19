@@ -8,7 +8,7 @@
     <stringAttribute key="com.crt.ctrlcenter.currentWireType" value="SWD"/>
     <booleanAttribute key="com.crt.ctrlcenter.mainBreakIsHardware" value="true"/>
     <booleanAttribute key="com.crt.ctrlcenter.saveState" value="true"/>
-    <stringAttribute key="com.crt.ctrlcenter.serialNumber" value="LinkServerARMCMSIS-DAP0201000032254e450014800ab52900173f31000097969900"/>
+    <stringAttribute key="com.crt.ctrlcenter.serialNumber" value="LinkServerARMCMSIS-DAP0201000032254e450013800bb529001d3f31000097969900"/>
     <mapAttribute key="com.crt.ctrlcenter.symbolsGroupSettings"/>
     <intAttribute key="com.crt.ctrlcenter.version" value="6"/>
     <stringAttribute key="com.nxp.mcuxpresso.flash.base.address" value="0x0"/>
@@ -81,7 +81,7 @@
     <stringAttribute key="org.eclipse.cdt.launch.PROGRAM_NAME" value="Debug\frdmkw41z_wireless_examples_thread_router_eligible_device_freertos.axf"/>
     <stringAttribute key="org.eclipse.cdt.launch.PROJECT_ATTR" value="frdmkw41z_wireless_examples_thread_router_eligible_device_freertos"/>
     <booleanAttribute key="org.eclipse.cdt.launch.PROJECT_BUILD_CONFIG_AUTO_ATTR" value="false"/>
-    <stringAttribute key="org.eclipse.cdt.launch.PROJECT_BUILD_CONFIG_ID_ATTR" value="com.crt.advproject.config.exe.debug.95718048"/>
+    <stringAttribute key="org.eclipse.cdt.launch.PROJECT_BUILD_CONFIG_ID_ATTR" value="com.crt.advproject.config.exe.debug.3873180"/>
     <booleanAttribute key="org.eclipse.cdt.launch.use_terminal" value="false"/>
     <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
         <listEntry value="/frdmkw41z_wireless_examples_thread_router_eligible_device_freertos"/>

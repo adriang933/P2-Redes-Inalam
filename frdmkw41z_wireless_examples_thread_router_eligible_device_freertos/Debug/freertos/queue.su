@@ -6,6 +6,7 @@
 ../freertos/queue.c:279:12:xQueueGenericReset	16	static
 ../freertos/queue.c:432:13:prvInitialiseNewQueue	16	static
 ../freertos/queue.c:386:16:xQueueGenericCreate	32	static
+../freertos/queue.c:542:8:xQueueGetMutexHolder	8	static
 ../freertos/queue.c:697:16:xQueueCreateCountingSemaphore	8	static
 ../freertos/queue.c:723:12:xQueueGenericSend	40	static
 ../freertos/queue.c:476:14:prvInitialiseMutex	8	static

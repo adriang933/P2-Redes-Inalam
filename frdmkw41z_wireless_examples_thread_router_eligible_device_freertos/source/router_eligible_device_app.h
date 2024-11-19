@@ -20,6 +20,7 @@ Include Files
 
 #include "EmbeddedTypes.h"
 #include "network_utils.h"
+#include "acc_cfg.h"
 /*==================================================================================================
 Public macros
 ==================================================================================================*/                       
@@ -40,6 +41,8 @@ Public global variables declarations
 #define APP_SINK_URI_PATH                       "/sink"
 #define APP_RESOURCE1_URI_PATH                       "/team3"
 #define APP_RESOURCE2_URI_PATH                       "/resource2"
+#define APP_ACC_URI_PATH                       "/accel"
+#define APP_ACC2_URI_PATH                       "/accelResp"
 /*==================================================================================================
 Public function prototypes
 ==================================================================================================*/

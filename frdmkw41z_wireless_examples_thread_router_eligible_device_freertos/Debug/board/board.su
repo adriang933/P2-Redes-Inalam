@@ -19,3 +19,4 @@
 ../board/board.c:523:10:BOARD_GetI2cClock	8	static
 ../board/board.c:541:6:BOARD_BLPEtoBLPI	0	static
 ../board/board.c:545:6:BOARD_BLPItoBLPE	0	static
+../board/board.c:552:6:BOARD_InitDebugConsole	8	static

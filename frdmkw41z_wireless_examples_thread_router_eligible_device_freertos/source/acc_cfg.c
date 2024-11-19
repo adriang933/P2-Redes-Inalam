@@ -48,8 +48,6 @@ void BOARD_I2C_ReleaseBus(void);
 /* ------------------- Variables ----------------------------*/
 i2c_master_handle_t g_MasterHandle;
 const uint8_t g_accel_address[] = {0x1CU, 0x1DU, 0x1EU, 0x1FU};
-fxos_handle_t fxosHandle;
-fxos_data_t sensorData;
 uint8_t dataScale = 0;
 uint16_t xData, yData, zData;
 int16_t xAngle, yAngle, zAngle;
@@ -107,7 +105,7 @@ void BOARD_I2C_ReleaseBus(void) {
 static void Timer_Init(void) {
     
     tpm_config_t tpmInfo;
-    tpm_chnl_pwm_signal_param_t tpmParam[3];
+    tpm_chnl_pwm_signal_param_t tpmParam[2];
 
     tpmParam[0].chnlNumber = (tpm_chnl_t)BOARD_FIRST_TIMER_CHANNEL;
     tpmParam[0].level = kTPM_LowTrue;
@@ -117,9 +115,9 @@ static void Timer_Init(void) {
     tpmParam[1].level = kTPM_LowTrue;
     tpmParam[1].dutyCyclePercent = 0U;
 
-    tpmParam[2].chnlNumber = (tpm_chnl_t)BOARD_THIRD_TIMER_CHANNEL;
+/*    tpmParam[2].chnlNumber = (tpm_chnl_t)BOARD_THIRD_TIMER_CHANNEL;
     tpmParam[2].level = kTPM_LowTrue;
-    tpmParam[2].dutyCyclePercent = 0U;
+    tpmParam[2].dutyCyclePercent = 0U;*/
 
 
     TPM_GetDefaultConfig(&tpmInfo);
@@ -127,21 +125,18 @@ static void Timer_Init(void) {
 
     CLOCK_SetTpmClock(TIMER_CLOCK_MODE);
 
-    TPM_SetupPwm(BOARD_TIMER_BASEADDR, tpmParam, 3U, kTPM_EdgeAlignedPwm, 24000U, BOARD_TIMER_SOURCE_CLOCK);
+    TPM_SetupPwm(BOARD_TIMER_BASEADDR, tpmParam, 2U, kTPM_EdgeAlignedPwm, 24000U, BOARD_TIMER_SOURCE_CLOCK);
     TPM_StartTimer(BOARD_TIMER_BASEADDR, kTPM_SystemClock);
 }
 
 static void Board_UpdatePwm(uint16_t x, uint16_t y, uint16_t z) {
-    TPM_UpdatePwmDutycycle(BOARD_TIMER_BASEADDR, (tpm_chnl_t)BOARD_FIRST_TIMER_CHANNEL, kTPM_EdgeAlignedPwm, x);
-    TPM_UpdatePwmDutycycle(BOARD_TIMER_BASEADDR, (tpm_chnl_t)BOARD_SECOND_TIMER_CHANNEL, kTPM_EdgeAlignedPwm, y);
-    TPM_UpdatePwmDutycycle(BOARD_TIMER_BASEADDR, (tpm_chnl_t)BOARD_THIRD_TIMER_CHANNEL, kTPM_EdgeAlignedPwm, z);
+    TPM_UpdatePwmDutycycle(BOARD_TIMER_BASEADDR, (tpm_chnl_t)BOARD_FIRST_TIMER_CHANNEL, kTPM_CombinedPwm, x);
+    TPM_UpdatePwmDutycycle(BOARD_TIMER_BASEADDR, (tpm_chnl_t)BOARD_SECOND_TIMER_CHANNEL, kTPM_CombinedPwm, y);
+  //  TPM_UpdatePwmDutycycle(BOARD_TIMER_BASEADDR, (tpm_chnl_t)BOARD_THIRD_TIMER_CHANNEL, kTPM_CombinedPwm, z);
 }
 
 /* ------------ Inicializa acelerometro, llamarla en la aplicacion ------------------ */
 void accl_init(void){
-
-	 fxos_handle_t fxosHandle;
-	    fxos_data_t sensorData;
 	    i2c_master_config_t i2cConfig;
 	    uint8_t sensorRange = 0;
 	    uint8_t dataScale = 0;
@@ -161,82 +156,79 @@ void accl_init(void){
 	    BOARD_InitDebugConsole();
 
 	    i2cSourceClock = CLOCK_GetFreq(ACCEL_I2C_CLK_SRC);
-	    fxosHandle.base = BOARD_ACCEL_I2C_BASEADDR;
-	    fxosHandle.i2cHandle = &g_MasterHandle;
 
 	    I2C_MasterGetDefaultConfig(&i2cConfig);
 	    I2C_MasterInit(BOARD_ACCEL_I2C_BASEADDR, &i2cConfig, i2cSourceClock);
 	    I2C_MasterTransferCreateHandle(BOARD_ACCEL_I2C_BASEADDR, &g_MasterHandle, NULL, NULL);
 
 	    /* Find sensor devices */
-	    array_addr_size = sizeof(g_accel_address) / sizeof(g_accel_address[0]);
-	    for (i = 0; i < array_addr_size; i++)
-	    {
-	        fxosHandle.xfer.slaveAddress = g_accel_address[i];
-	        if (FXOS_ReadReg(&fxosHandle, WHO_AM_I_REG, &regResult, 1) == kStatus_Success)
-	        {
-	            foundDevice = true;
-	            break;
-	        }
-	        if ((i == (array_addr_size - 1)) && (!foundDevice))
-	        {
-	            PRINTF("\r\nDo not found sensor device\r\n");
-	            while (1)
-	            {
-	            };
-	        }
-	    }
-
-	    /* Init accelerometer sensor */
-	    if (FXOS_Init(&fxosHandle) != kStatus_Success)
-	    {
-	        return -1;
-	    }
-	    /* Get sensor range */
-	    if (FXOS_ReadReg(&fxosHandle, XYZ_DATA_CFG_REG, &sensorRange, 1) != kStatus_Success)
-	    {
-	        return -1;
-	    }
-	    if (sensorRange == 0x00)
-	    {
-	        dataScale = 2U;
-	    }
-	    else if (sensorRange == 0x01)
-	    {
-	        dataScale = 4U;
-	    }
-	    else if (sensorRange == 0x10)
-	    {
-	        dataScale = 8U;
-	    }
-	    else
-	    {
-	    }
 	    Timer_Init();
-}
-
-/* ------------ Se envia el valor de X, Y, Z en el request al lider -------------------*/
-uint16_t RangeX_values(void) {
-	xData = (int16_t)((uint16_t)((uint16_t)sensorData.accelXMSB << 8) | (uint16_t)sensorData.accelXLSB) / 4U;
-	return xData;
-}
-
-uint16_t RangeY_values(void) {
-	yData = (int16_t)((uint16_t)((uint16_t)sensorData.accelYMSB << 8) | (uint16_t)sensorData.accelYLSB) / 4U;
-	return yData;
-}
-
-uint16_t RangeZ_values(void) {
-	zData = (int16_t)((uint16_t)((uint16_t)sensorData.accelZMSB << 8) | (uint16_t)sensorData.accelZLSB) / 4U;
-	return zData;
 }
 
 /* ------------ Cambiar color de Led de acuerdo a XYZ ----------------------------*/
 void Angle_update (void) {
-	uint16_t X, Y, Z;
-	while(1){
-		X = RangeX_values();
-		xAngle = (int16_t)floor((double)X * (double)dataScale * 90 / 8192);
+//	while(1){
+    fxos_handle_t fxosHandle;
+    fxos_data_t sensorData;
+	fxosHandle.base = BOARD_ACCEL_I2C_BASEADDR;
+    fxosHandle.i2cHandle = &g_MasterHandle;
+    uint8_t array_addr_size = 0;
+    uint8_t i = 0;
+    bool foundDevice = false;
+    uint8_t regResult = 0;
+    uint8_t sensorRange = 0;
+    array_addr_size = sizeof(g_accel_address) / sizeof(g_accel_address[0]);
+    	    for (i = 0; i < array_addr_size; i++)
+    	    {
+    	        fxosHandle.xfer.slaveAddress = g_accel_address[i];
+    	        if (FXOS_ReadReg(&fxosHandle, WHO_AM_I_REG, &regResult, 1) == kStatus_Success)
+    	        {
+    	            foundDevice = true;
+    	            break;
+    	        }
+    	        if ((i == (array_addr_size - 1)) && (!foundDevice))
+    	        {
+    	            PRINTF("\r\nDo not found sensor device\r\n");
+    	            while (1)
+    	            {
+    	            };
+    	        }
+    	    }
+
+    	    /* Init accelerometer sensor */
+    	    if (FXOS_Init(&fxosHandle) != kStatus_Success)
+    	    {
+    	        return -1;
+    	    }
+    	    /* Get sensor range */
+    	    if (FXOS_ReadReg(&fxosHandle, XYZ_DATA_CFG_REG, &sensorRange, 1) != kStatus_Success)
+    	    {
+    	        return -1;
+    	    }
+    	    if (sensorRange == 0x00)
+    	    {
+    	        dataScale = 2U;
+    	    }
+    	    else if (sensorRange == 0x01)
+    	    {
+    	        dataScale = 4U;
+    	    }
+    	    else if (sensorRange == 0x10)
+    	    {
+    	        dataScale = 8U;
+    	    }
+    	    else
+    	    {
+    	    }
+	FXOS_ReadSensorData(&fxosHandle, &sensorData);
+
+	xData = (int16_t)((uint16_t)((uint16_t)sensorData.accelXMSB << 8) | (uint16_t)sensorData.accelXLSB) / 4U;
+
+	yData = (int16_t)((uint16_t)((uint16_t)sensorData.accelYMSB << 8) | (uint16_t)sensorData.accelYLSB) / 4U;
+
+	//zData = (int16_t)((uint16_t)((uint16_t)sensorData.accelZMSB << 8) | (uint16_t)sensorData.accelZLSB) / 4U;
+
+		xAngle = (int16_t)floor((double)xData * (double)dataScale * 90 / 8192);
 		if (xAngle < 0) {
 			xAngle *= -1;
 		}
@@ -247,8 +239,7 @@ void Angle_update (void) {
             xAngle = 0;
         }
 
-		Y = RangeY_values();
-		yAngle = (int16_t)floor((double)Y * (double)dataScale * 90 / 8192);
+		yAngle = (int16_t)floor((double)yData * (double)dataScale * 90 / 8192);
 		if (yAngle < 0) {
 			yAngle *= -1;
 		}
@@ -259,8 +250,7 @@ void Angle_update (void) {
             yAngle = 0;
         }
 
-		Z = RangeZ_values();
-		zAngle = (int16_t)floor((double)Z * (double)dataScale * 90 / 8192);
+	/*	zAngle = (int16_t)floor((double)zData * (double)dataScale * 90 / 8192);
 		if (zAngle < 0) {
 			zAngle *= -1;
 		}
@@ -269,8 +259,23 @@ void Angle_update (void) {
 		}
         if (zAngle < ANGLE_LOWER_BOUND) {
             zAngle = 0;
-        }
-        Board_UpdatePwm(xAngle, yAngle, zAngle);
-	}
+        }*/
+       // Board_UpdatePwm(xAngle, yAngle, zAngle);
+	//}
+}
+
+uint16_t RetX(void)
+{
+	return(xAngle);
+}
+
+uint16_t RetY(void)
+{
+	return(yAngle);
+}
+
+uint16_t RetZ(void)
+{
+	return(zAngle);
 }
 

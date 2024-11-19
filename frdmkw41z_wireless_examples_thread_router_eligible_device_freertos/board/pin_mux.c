@@ -59,6 +59,29 @@ BOARD_InitButtons:
  * Description   : Configures pin routing and optionally pin electrical features.
  *
  *END**************************************************************************/
+#define PIN2_IDX                         2u   /*!< Pin number for pin 2 in a port */
+#define PIN3_IDX                         3u   /*!< Pin number for pin 3 in a port */
+
+void BOARD_I2C_ConfigurePins(void) {
+  CLOCK_EnableClock(kCLOCK_PortC);                           /* Port C Clock Gate Control: Clock enabled */
+
+  const port_pin_config_t portc2_pin38_config = {
+    kPORT_PullUp,                                            /* Internal pull-up resistor is enabled */
+    kPORT_FastSlewRate,                                      /* Fast slew rate is configured */
+    kPORT_PassiveFilterDisable,                              /* Passive filter is disabled */
+    kPORT_LowDriveStrength,                                  /* Low drive strength is configured */
+    kPORT_MuxAlt3,                                           /* Pin is configured as I2C1_SCL */
+  };
+  PORT_SetPinConfig(PORTC, PIN2_IDX, &portc2_pin38_config);  /* PORTC2 (pin 38) is configured as I2C1_SCL */
+  const port_pin_config_t portc3_pin39_config = {
+    kPORT_PullUp,                                            /* Internal pull-up resistor is enabled */
+    kPORT_FastSlewRate,                                      /* Fast slew rate is configured */
+    kPORT_PassiveFilterDisable,                              /* Passive filter is disabled */
+    kPORT_LowDriveStrength,                                  /* Low drive strength is configured */
+    kPORT_MuxAlt3,                                           /* Pin is configured as I2C1_SDA */
+  };
+  PORT_SetPinConfig(PORTC, PIN3_IDX, &portc3_pin39_config);  /* PORTC3 (pin 39) is configured as I2C1_SDA */
+}
 void BOARD_InitButtons(void) {
   CLOCK_EnableClock(kCLOCK_PortC);                           /* Port C Clock Gate Control: Clock enabled */
 

@@ -15,7 +15,6 @@ OBJS :=
 # Every subdirectory with source files must be described here
 SUBDIRS := \
 CMSIS \
-CMSIS_driver \
 board \
 drivers \
 framework/DCDC/Source \

@@ -113,8 +113,18 @@ extern "C" {
 * Public prototypes
 *************************************************************************************
 ************************************************************************************/
-#define BOARD_ACCEL_I2C_BASEADDR I2C1
+#define BOARD_NAME "FRDM-KW41Z"
 
+/*! @brief The UART to use for debug messages. */
+#define BOARD_USE_LPUART
+#define BOARD_DEBUG_UART_TYPE DEBUG_CONSOLE_DEVICE_TYPE_LPUART
+#define BOARD_DEBUG_UART_BASEADDR (uint32_t) LPUART0
+#define BOARD_DEBUG_UART_CLKSRC kCLOCK_Osc0ErClk
+#define BOARD_DEBUG_UART_CLK_FREQ CLOCK_GetOsc0ErClkFreq()
+#define BOARD_UART_IRQ LPUART0_IRQn
+#define BOARD_UART_IRQ_HANDLER LPUART0_IRQHandler
+#define BOARD_DEBUG_UART_BAUDRATE 115200
+#define BOARD_ACCEL_I2C_BASEADDR I2C1
 void hardware_init(void);
 
 /* Function to initialize ADC on board configuration. */
