@@ -181,6 +181,17 @@ uint32_t Zval = 0;
 
 extern bool_t gEnable802154TxLed;
 uint8_t XYZCounter = 0;
+uint8_t counterAccRXFlag = 0;
+char RX[15];
+char RY[15];
+char RZ[15];
+uint8_t intRX;
+uint8_t intRY;
+uint8_t intRZ;
+#define PIN1_IDX                         1u   /*!< Pin number for pin 1 in a port */
+#define PIN6_IDX                         6u   /*!< Pin number for pin 6 in a port */
+#define PIN7_IDX                         7u   /*!< Pin number for pin 7 in a port */
+#define SOPT5_LPUART0RXSRC_LPUART_RX  0x00u
 /*==================================================================================================
 Public functions
 ==================================================================================================*/
@@ -362,6 +373,7 @@ uint32_t dataLen
 
 {
 	char addrStr[INET6_ADDRSTRLEN];
+
 	 if (gCoapNonConfirmable_c ==  pSession->msgType)
 	    {
 		    shell_write(" (Accel2) 'NON' packet received 'POST' with payload: ");
@@ -372,8 +384,98 @@ uint32_t dataLen
 		ntop(AF_INET6, (ipAddr_t*)&pSession->remoteAddrStorage.ss_addr, addrStr, INET6_ADDRSTRLEN);
 		shell_printf("\tFrom IPv6 Address: %s\n\r", addrStr);
 		shell_write("\r\n");
+		if (counterAccRXFlag == 0)
+		{
+			 memcpy(RX,&((char *)pData)[4], 15);
+			 RX[14] = '\0';
+			 intRX = atoi(RX);
+			 counterAccRXFlag++;
 
+		}else if (counterAccRXFlag == 1){
+			 memcpy(RY,&((char *)pData)[4], 15);
+			 RY[14] = '\0';
+			 intRY = atoi(RY);
+			 counterAccRXFlag++;
+		}else if (counterAccRXFlag == 2){
+			memcpy(RZ,&((char *)pData)[4], 15);
+			 RZ[14] = '\0';
+			 intRZ = atoi(RZ);
+			 if ((intRX > intRY) || (intRX > intRZ))
+			 {
+				 if((intRX > intRZ) && ((intRX > intRY))){
+					 LED_RED_ON();//led rojo
+					 LED_BLUE_OFF();
+					 LED_GREEN_OFF();
+				 }else if (intRX == intRZ)
+				 {
+					LED_RED_ON();
+					LED_BLUE_OFF();
+					LED_GREEN_ON();
+					 // Rojo y Verde
+				 }else if (intRX == intRY){
+					 //Rojo y Azul
+					LED_RED_ON();
+					LED_BLUE_ON();
+					LED_GREEN_OFF();
+				 }
+			 }else if ((intRX == intRY) && (intRX == intRZ)){
+				 // Blanco
+					LED_RED_ON();
+					LED_BLUE_ON();
+					LED_GREEN_ON();
+			 }else if ((intRY > intRX) || (intRY > intRZ))
+			 {
+				 if((intRY > intRZ) && ((intRY > intRX))){
+					 //led azul
+					LED_RED_OFF();
+					LED_BLUE_ON();
+					LED_GREEN_OFF();
+				 }else if (intRY == intRZ)
+				 {
+					 // azul y Verde
+					LED_RED_OFF();
+					LED_BLUE_ON();
+					LED_GREEN_ON();
+				 }else if (intRY == intRX){
+					 //Rojo y Azul
+					LED_RED_ON();
+					LED_BLUE_ON();
+					LED_GREEN_OFF();
+				 }
+			 }else if ((intRY == intRX) && (intRY == intRZ)){
+				 // Blanco
+			    	LED_RED_ON();
+				 	LED_BLUE_ON();
+				 	LED_GREEN_ON();
+			 }else if ((intRZ > intRX) || (intRZ > intRY))
+			 {
+				 if((intRZ > intRY) && ((intRZ > intRX))){
+					 //led verde
+					LED_RED_OFF();
+					LED_BLUE_OFF();
+					LED_GREEN_ON();
+				 }else if (intRZ == intRY)
+				 {
+					 // azul y Verde
+					LED_RED_OFF();
+					LED_BLUE_ON();
+					LED_GREEN_ON();
+				 }else if (intRZ == intRX){
+					 //Rojo y verde
+					LED_RED_ON();
+					LED_BLUE_OFF();
+					LED_GREEN_ON();
+				 }
+			 }else if ((intRZ == intRX) && (intRZ == intRY)){
+				 // Blanco
+				 LED_RED_ON();
+				 LED_BLUE_ON();
+				 LED_GREEN_ON();
+			 }
+			 counterAccRXFlag = 0;
+		}
 }
+
 void APP_Init
 (
     void
@@ -382,6 +484,7 @@ void APP_Init
     /* Initialize pointer to application task message queue */
     mpAppThreadMsgQueue = &appThreadMsgQueue;
     accl_init();
+    LEDsConfig();
     MyTask_Init();
     /* Initialize main thread message queue */
     ListInit(&appThreadMsgQueue.msgQueue,APP_MSG_QUEUE_SIZE);
@@ -502,13 +605,13 @@ void Stack_to_APP_Handler
     switch(pEventParams->code)
     {
         case gThrEv_GeneralInd_ResetToFactoryDefault_c:
-            App_UpdateStateLeds(gDeviceState_FactoryDefault_c);
+            //  App_UpdateStateLeds(gDeviceState_FactoryDefault_c);
             break;
 
         case gThrEv_GeneralInd_InstanceRestoreStarted_c:
         case gThrEv_GeneralInd_ConnectingStarted_c:
             APP_SetMode(mThrInstanceId, gDeviceMode_Configuration_c);
-            App_UpdateStateLeds(gDeviceState_JoiningOrAttaching_c);
+          ///  App_UpdateStateLeds(gDeviceState_JoiningOrAttaching_c);
             gEnable802154TxLed = FALSE;
             break;
 
@@ -519,7 +622,7 @@ void Stack_to_APP_Handler
             break;
 
         case gThrEv_GeneralInd_Connected_c:
-            App_UpdateStateLeds(gDeviceState_NwkConnected_c);
+          //  App_UpdateStateLeds(gDeviceState_NwkConnected_c);
             /* Set application CoAP destination to all nodes on connected network */
             THR_GetIP6Addr(mThrInstanceId, gAllThreadNodes_c, &gCoapDestAddress, NULL);
             APP_SetMode(mThrInstanceId, gDeviceMode_Application_c);
@@ -542,17 +645,17 @@ void Stack_to_APP_Handler
         case gThrEv_GeneralInd_ConnectingDeffered_c:
             APP_SetMode(mThrInstanceId, gDeviceMode_Configuration_c);
             gEnable802154TxLed = FALSE;
-            App_UpdateStateLeds(gDeviceState_NwkOperationPending_c);
+       //     App_UpdateStateLeds(gDeviceState_NwkOperationPending_c);
             break;
 
         case gThrEv_GeneralInd_ConnectingFailed_c:
         case gThrEv_GeneralInd_Disconnected_c:
             APP_SetMode(mThrInstanceId, gDeviceMode_Configuration_c);
-            App_UpdateStateLeds(gDeviceState_NwkFailure_c);
+       //     App_UpdateStateLeds(gDeviceState_NwkFailure_c);
             break;
 
         case gThrEv_GeneralInd_DeviceIsLeader_c:
-            App_UpdateStateLeds(gDeviceState_Leader_c);
+       //     App_UpdateStateLeds(gDeviceState_Leader_c);
             gEnable802154TxLed = TRUE;
 #if !LARGE_NETWORK
             /* Auto start commissioner for the partition for demo purposes */
@@ -561,7 +664,7 @@ void Stack_to_APP_Handler
             break;
 
         case gThrEv_GeneralInd_DeviceIsRouter_c:
-            App_UpdateStateLeds(gDeviceState_ActiveRouter_c);
+        //    App_UpdateStateLeds(gDeviceState_ActiveRouter_c);
             gEnable802154TxLed = TRUE;
 
 #if UDP_ECHO_PROTOCOL
@@ -570,7 +673,7 @@ void Stack_to_APP_Handler
             break;
 
         case gThrEv_GeneralInd_DevIsREED_c:
-            App_UpdateStateLeds(gDeviceState_NwkConnected_c);
+          //  App_UpdateStateLeds(gDeviceState_NwkConnected_c);
             gEnable802154TxLed = TRUE;
             break;
 
@@ -617,11 +720,11 @@ void APP_Commissioning_Handler
         case gThrEv_MeshCop_JoinerDiscoverySuccess_c:
             break;
         case gThrEv_MeshCop_JoinerDtlsSessionStarted_c:
-            App_UpdateStateLeds(gDeviceState_JoiningOrAttaching_c);
+        //    App_UpdateStateLeds(gDeviceState_JoiningOrAttaching_c);
             break;
         case gThrEv_MeshCop_JoinerDtlsError_c:
         case gThrEv_MeshCop_JoinerError_c:
-            App_UpdateStateLeds(gDeviceState_FactoryDefault_c);
+        //    App_UpdateStateLeds(gDeviceState_FactoryDefault_c);
             break;
         case gThrEv_MeshCop_JoinerAccepted_c:
 
@@ -705,7 +808,6 @@ static void APP_InitCoapDemo
     NWKU_SetSockAddrInfo(&coapParams, NULL, AF_INET6, COAP_DEFAULT_PORT, 0, gIpIfSlp0_c);
     mAppCoapInstId = COAP_CreateInstance(NULL, &coapParams, (coapRegCbParams_t *)cbParams,
                                          NumberOfElements(cbParams));
-    int aaa  =  0;
 }
 
 /*!*************************************************************************************************
@@ -765,7 +867,7 @@ static void APP_ConfigModeSwShortPressHandler
        (APP_GetState(mThrInstanceId) == gDeviceState_NwkFailure_c) ||
        (APP_GetState(mThrInstanceId) == gDeviceState_NwkOperationPending_c))
     {
-        App_UpdateStateLeds(gDeviceState_JoiningOrAttaching_c);
+       // App_UpdateStateLeds(gDeviceState_JoiningOrAttaching_c);
         mFirstPushButtonPressed = TRUE;
 
         if(mAppTimerId == gTmrInvalidTimerID_c)
@@ -804,7 +906,7 @@ static void APP_ConfigModeSwShortPressHandler
                 mAppTimerId = gTmrInvalidTimerID_c;
             }
 
-            App_UpdateStateLeds(gDeviceState_Leader_c);
+        //    App_UpdateStateLeds(gDeviceState_Leader_c);
 
             /* Create the network */
             (void)THR_NwkCreate(mThrInstanceId);
@@ -1591,6 +1693,23 @@ ipAddr_t RetCoapDestAddress (void)
 uint8_t RetmAppCoapInstId (void)
 {
 	return(mAppCoapInstId);
+}
+
+void LEDsConfig(void) {
+    /* Define the init structure for the output LED pin*/
+    gpio_pin_config_t led_config = {
+        kGPIO_DigitalOutput, 0,
+    };
+
+    CLOCK_EnableClock(kCLOCK_PortC);                           /* Port C Clock Gate Control: Clock enabled */
+    CLOCK_EnableClock(kCLOCK_PortA);
+    PORT_SetPinMux(PORTC, 1u, kPORT_MuxAsGpio);
+    PORT_SetPinMux(PORTA, 19u, kPORT_MuxAsGpio);
+    PORT_SetPinMux(PORTA, 18u, kPORT_MuxAsGpio);
+
+    GPIO_PinInit(BOARD_LED_RED_GPIO, BOARD_LED_RED_GPIO_PIN, &led_config);
+    GPIO_PinInit(BOARD_LED_GREEN_GPIO, BOARD_LED_GREEN_GPIO_PIN, &led_config);
+    GPIO_PinInit(BOARD_LED_BLUE_GPIO, BOARD_LED_BLUE_GPIO_PIN, &led_config);
 }
 
 /*!*************************************************************************************************

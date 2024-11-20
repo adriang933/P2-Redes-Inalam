@@ -29,6 +29,8 @@ ieee_802.15.4/phy/source/MKW41Z/PhyPacketProcessor.o \
  C:\Users\adrgm\Documents\MCUXpressoIDE_11.6.0_8187\workspace\ThreadBBBB\frdmkw41z_wireless_examples_thread_router_eligible_device_freertos\CMSIS/system_MKW41Z4.h \
  C:\Users\adrgm\Documents\MCUXpressoIDE_11.6.0_8187\workspace\ThreadBBBB\frdmkw41z_wireless_examples_thread_router_eligible_device_freertos\CMSIS/MKW41Z4_features.h \
  C:\Users\adrgm\Documents\MCUXpressoIDE_11.6.0_8187\workspace\ThreadBBBB\frdmkw41z_wireless_examples_thread_router_eligible_device_freertos\drivers/fsl_clock.h \
+ C:\Users\adrgm\Documents\MCUXpressoIDE_11.6.0_8187\workspace\ThreadBBBB\frdmkw41z_wireless_examples_thread_router_eligible_device_freertos\board/clock_config.h \
+ C:\Users\adrgm\Documents\MCUXpressoIDE_11.6.0_8187\workspace\ThreadBBBB\frdmkw41z_wireless_examples_thread_router_eligible_device_freertos\drivers/fsl_common.h \
  ../ieee_802.15.4/phy/source/MKW41Z/Phy.h \
  C:\Users\adrgm\Documents\MCUXpressoIDE_11.6.0_8187\workspace\ThreadBBBB\frdmkw41z_wireless_examples_thread_router_eligible_device_freertos\ieee_802.15.4\phy\interface/PhyInterface.h \
  C:\Users\adrgm\Documents\MCUXpressoIDE_11.6.0_8187\workspace\ThreadBBBB\frdmkw41z_wireless_examples_thread_router_eligible_device_freertos\framework\OSAbstraction\Interface/fsl_os_abstraction.h \
@@ -67,6 +69,8 @@ C:\Users\adrgm\Documents\MCUXpressoIDE_11.6.0_8187\workspace\ThreadBBBB\frdmkw41
 C:\Users\adrgm\Documents\MCUXpressoIDE_11.6.0_8187\workspace\ThreadBBBB\frdmkw41z_wireless_examples_thread_router_eligible_device_freertos\CMSIS/system_MKW41Z4.h:
 C:\Users\adrgm\Documents\MCUXpressoIDE_11.6.0_8187\workspace\ThreadBBBB\frdmkw41z_wireless_examples_thread_router_eligible_device_freertos\CMSIS/MKW41Z4_features.h:
 C:\Users\adrgm\Documents\MCUXpressoIDE_11.6.0_8187\workspace\ThreadBBBB\frdmkw41z_wireless_examples_thread_router_eligible_device_freertos\drivers/fsl_clock.h:
+C:\Users\adrgm\Documents\MCUXpressoIDE_11.6.0_8187\workspace\ThreadBBBB\frdmkw41z_wireless_examples_thread_router_eligible_device_freertos\board/clock_config.h:
+C:\Users\adrgm\Documents\MCUXpressoIDE_11.6.0_8187\workspace\ThreadBBBB\frdmkw41z_wireless_examples_thread_router_eligible_device_freertos\drivers/fsl_common.h:
 ../ieee_802.15.4/phy/source/MKW41Z/Phy.h:
 C:\Users\adrgm\Documents\MCUXpressoIDE_11.6.0_8187\workspace\ThreadBBBB\frdmkw41z_wireless_examples_thread_router_eligible_device_freertos\ieee_802.15.4\phy\interface/PhyInterface.h:
 C:\Users\adrgm\Documents\MCUXpressoIDE_11.6.0_8187\workspace\ThreadBBBB\frdmkw41z_wireless_examples_thread_router_eligible_device_freertos\framework\OSAbstraction\Interface/fsl_os_abstraction.h:

@@ -21,6 +21,9 @@ Include Files
 #include "EmbeddedTypes.h"
 #include "network_utils.h"
 #include "acc_cfg.h"
+#include "board.h"
+#include "fsl_port.h"
+#include <stdlib.h>
 /*==================================================================================================
 Public macros
 ==================================================================================================*/                       
@@ -43,11 +46,14 @@ Public global variables declarations
 #define APP_RESOURCE2_URI_PATH                       "/resource2"
 #define APP_ACC_URI_PATH                       "/accel"
 #define APP_ACC2_URI_PATH                       "/accelResp"
+#define BOARD_LED_GPIO BOARD_LED_RED_GPIO
+#define BOARD_LED_GPIO_PIN BOARD_LED_RED_GPIO_PIN
 /*==================================================================================================
 Public function prototypes
 ==================================================================================================*/
 ipAddr_t RetCoapDestAddress (void);
 uint8_t RetmAppCoapInstId (void);
+void LEDsConfig(void);
 #ifdef __cplusplus
 extern "C" {
 #endif

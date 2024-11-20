@@ -23,6 +23,8 @@ source/Timer.o source/Timer.d: ../source/Timer.c \
  C:\Users\adrgm\Documents\MCUXpressoIDE_11.6.0_8187\workspace\ThreadBBBB\frdmkw41z_wireless_examples_thread_router_eligible_device_freertos\CMSIS/system_MKW41Z4.h \
  C:\Users\adrgm\Documents\MCUXpressoIDE_11.6.0_8187\workspace\ThreadBBBB\frdmkw41z_wireless_examples_thread_router_eligible_device_freertos\CMSIS/MKW41Z4_features.h \
  C:\Users\adrgm\Documents\MCUXpressoIDE_11.6.0_8187\workspace\ThreadBBBB\frdmkw41z_wireless_examples_thread_router_eligible_device_freertos\drivers/fsl_clock.h \
+ C:\Users\adrgm\Documents\MCUXpressoIDE_11.6.0_8187\workspace\ThreadBBBB\frdmkw41z_wireless_examples_thread_router_eligible_device_freertos\board/clock_config.h \
+ C:\Users\adrgm\Documents\MCUXpressoIDE_11.6.0_8187\workspace\ThreadBBBB\frdmkw41z_wireless_examples_thread_router_eligible_device_freertos\drivers/fsl_common.h \
  C:\Users\adrgm\Documents\MCUXpressoIDE_11.6.0_8187\workspace\ThreadBBBB\frdmkw41z_wireless_examples_thread_router_eligible_device_freertos\nwk_ip\app\common/app_init.h \
  C:\Users\adrgm\Documents\MCUXpressoIDE_11.6.0_8187\workspace\ThreadBBBB\frdmkw41z_wireless_examples_thread_router_eligible_device_freertos\nwk_ip\core\interface/network_utils.h \
  C:\Users\adrgm\Documents\MCUXpressoIDE_11.6.0_8187\workspace\ThreadBBBB\frdmkw41z_wireless_examples_thread_router_eligible_device_freertos\framework\Messaging\Interface/Messaging.h \
@@ -51,11 +53,11 @@ source/Timer.o source/Timer.d: ../source/Timer.c \
  C:\Users\adrgm\Documents\MCUXpressoIDE_11.6.0_8187\workspace\ThreadBBBB\frdmkw41z_wireless_examples_thread_router_eligible_device_freertos\nwk_ip\core\interface/sockets.h \
  C:\Users\adrgm\Documents\MCUXpressoIDE_11.6.0_8187\workspace\ThreadBBBB\frdmkw41z_wireless_examples_thread_router_eligible_device_freertos\nwk_ip\core\interface/network_utils.h \
  C:\Users\adrgm\Documents\MCUXpressoIDE_11.6.0_8187\workspace\ThreadBBBB\frdmkw41z_wireless_examples_thread_router_eligible_device_freertos\nwk_ip\core\interface\modules/udp.h \
- C:\Users\adrgm\Documents\MCUXpressoIDE_11.6.0_8187\workspace\ThreadBBBB\frdmkw41z_wireless_examples_thread_router_eligible_device_freertos\drivers/fsl_common.h \
  C:\Users\adrgm\Documents\MCUXpressoIDE_11.6.0_8187\workspace\ThreadBBBB\frdmkw41z_wireless_examples_thread_router_eligible_device_freertos\framework\Shell\Interface/shell.h \
  C:\Users\adrgm\Documents\MCUXpressoIDE_11.6.0_8187\workspace\ThreadBBBB\frdmkw41z_wireless_examples_thread_router_eligible_device_freertos\framework\Shell\Interface/shell_config.h \
  C:\Users\adrgm\Documents\MCUXpressoIDE_11.6.0_8187\workspace\ThreadBBBB\frdmkw41z_wireless_examples_thread_router_eligible_device_freertos\framework\SerialManager\Interface/SerialManager.h \
  ../source/router_eligible_device_app.h ../source/acc_cfg.h \
+ C:\Users\adrgm\Documents\MCUXpressoIDE_11.6.0_8187\workspace\ThreadBBBB\frdmkw41z_wireless_examples_thread_router_eligible_device_freertos\drivers/fsl_port.h \
  C:\Users\adrgm\Documents\MCUXpressoIDE_11.6.0_8187\workspace\ThreadBBBB\frdmkw41z_wireless_examples_thread_router_eligible_device_freertos\nwk_ip\core\interface\modules/coap.h \
  C:\Users\adrgm\Documents\MCUXpressoIDE_11.6.0_8187\workspace\ThreadBBBB\frdmkw41z_wireless_examples_thread_router_eligible_device_freertos\nwk_ip\core\interface\modules/session.h \
  C:\Users\adrgm\Documents\MCUXpressoIDE_11.6.0_8187\workspace\ThreadBBBB\frdmkw41z_wireless_examples_thread_router_eligible_device_freertos\nwk_ip\core\interface\modules/dtls.h
@@ -83,6 +85,8 @@ C:\Users\adrgm\Documents\MCUXpressoIDE_11.6.0_8187\workspace\ThreadBBBB\frdmkw41
 C:\Users\adrgm\Documents\MCUXpressoIDE_11.6.0_8187\workspace\ThreadBBBB\frdmkw41z_wireless_examples_thread_router_eligible_device_freertos\CMSIS/system_MKW41Z4.h:
 C:\Users\adrgm\Documents\MCUXpressoIDE_11.6.0_8187\workspace\ThreadBBBB\frdmkw41z_wireless_examples_thread_router_eligible_device_freertos\CMSIS/MKW41Z4_features.h:
 C:\Users\adrgm\Documents\MCUXpressoIDE_11.6.0_8187\workspace\ThreadBBBB\frdmkw41z_wireless_examples_thread_router_eligible_device_freertos\drivers/fsl_clock.h:
+C:\Users\adrgm\Documents\MCUXpressoIDE_11.6.0_8187\workspace\ThreadBBBB\frdmkw41z_wireless_examples_thread_router_eligible_device_freertos\board/clock_config.h:
+C:\Users\adrgm\Documents\MCUXpressoIDE_11.6.0_8187\workspace\ThreadBBBB\frdmkw41z_wireless_examples_thread_router_eligible_device_freertos\drivers/fsl_common.h:
 C:\Users\adrgm\Documents\MCUXpressoIDE_11.6.0_8187\workspace\ThreadBBBB\frdmkw41z_wireless_examples_thread_router_eligible_device_freertos\nwk_ip\app\common/app_init.h:
 C:\Users\adrgm\Documents\MCUXpressoIDE_11.6.0_8187\workspace\ThreadBBBB\frdmkw41z_wireless_examples_thread_router_eligible_device_freertos\nwk_ip\core\interface/network_utils.h:
 C:\Users\adrgm\Documents\MCUXpressoIDE_11.6.0_8187\workspace\ThreadBBBB\frdmkw41z_wireless_examples_thread_router_eligible_device_freertos\framework\Messaging\Interface/Messaging.h:
@@ -111,12 +115,12 @@ C:\Users\adrgm\Documents\MCUXpressoIDE_11.6.0_8187\workspace\ThreadBBBB\frdmkw41
 C:\Users\adrgm\Documents\MCUXpressoIDE_11.6.0_8187\workspace\ThreadBBBB\frdmkw41z_wireless_examples_thread_router_eligible_device_freertos\nwk_ip\core\interface/sockets.h:
 C:\Users\adrgm\Documents\MCUXpressoIDE_11.6.0_8187\workspace\ThreadBBBB\frdmkw41z_wireless_examples_thread_router_eligible_device_freertos\nwk_ip\core\interface/network_utils.h:
 C:\Users\adrgm\Documents\MCUXpressoIDE_11.6.0_8187\workspace\ThreadBBBB\frdmkw41z_wireless_examples_thread_router_eligible_device_freertos\nwk_ip\core\interface\modules/udp.h:
-C:\Users\adrgm\Documents\MCUXpressoIDE_11.6.0_8187\workspace\ThreadBBBB\frdmkw41z_wireless_examples_thread_router_eligible_device_freertos\drivers/fsl_common.h:
 C:\Users\adrgm\Documents\MCUXpressoIDE_11.6.0_8187\workspace\ThreadBBBB\frdmkw41z_wireless_examples_thread_router_eligible_device_freertos\framework\Shell\Interface/shell.h:
 C:\Users\adrgm\Documents\MCUXpressoIDE_11.6.0_8187\workspace\ThreadBBBB\frdmkw41z_wireless_examples_thread_router_eligible_device_freertos\framework\Shell\Interface/shell_config.h:
 C:\Users\adrgm\Documents\MCUXpressoIDE_11.6.0_8187\workspace\ThreadBBBB\frdmkw41z_wireless_examples_thread_router_eligible_device_freertos\framework\SerialManager\Interface/SerialManager.h:
 ../source/router_eligible_device_app.h:
 ../source/acc_cfg.h:
+C:\Users\adrgm\Documents\MCUXpressoIDE_11.6.0_8187\workspace\ThreadBBBB\frdmkw41z_wireless_examples_thread_router_eligible_device_freertos\drivers/fsl_port.h:
 C:\Users\adrgm\Documents\MCUXpressoIDE_11.6.0_8187\workspace\ThreadBBBB\frdmkw41z_wireless_examples_thread_router_eligible_device_freertos\nwk_ip\core\interface\modules/coap.h:
 C:\Users\adrgm\Documents\MCUXpressoIDE_11.6.0_8187\workspace\ThreadBBBB\frdmkw41z_wireless_examples_thread_router_eligible_device_freertos\nwk_ip\core\interface\modules/session.h:
 C:\Users\adrgm\Documents\MCUXpressoIDE_11.6.0_8187\workspace\ThreadBBBB\frdmkw41z_wireless_examples_thread_router_eligible_device_freertos\nwk_ip\core\interface\modules/dtls.h:

@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
-		<item key="selection" value="fxosHandle"/>
+		<item key="selection" value="App_UpdateStateLeds"/>
 		<item key="wrap" value="true"/>
 		<item key="casesensitive" value="false"/>
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
+			<item value="App_UpdateStateLeds"/>
+			<item value="BOARD_LED_RED_GPIO"/>
+			<item value="intRZ"/>
+			<item value="intRY"/>
+			<item value="intRX"/>
 			<item value="fxosHandle"/>
 			<item value="data_init"/>
 			<item value="CounterValue"/>
@@ -18,20 +23,18 @@
 			<item value="gCoapDestAddress"/>
 			<item value="localAddr.addr8"/>
 			<item value="&apos;NON&apos; packet received"/>
-			<item value="FLib_MemCpy"/>
-			<item value="evCode"/>
-			<item value="App_HandleKeyboard"/>
-			<item value="APP_AppModeHandleKeyboard"/>
-			<item value="APP_ReportTemp"/>
 		</list>
 		<list key="replacehistory">
+			<item value="intRY"/>
+			<item value="intRZ"/>
+			<item value="intRX"/>
 			<item value="remoteAddrStorage.ss_addr"/>
 			<item value=""/>
 		</list>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
-		<item key="DIALOG_X_ORIGIN" value="1373"/>
-		<item key="DIALOG_Y_ORIGIN" value="221"/>
+		<item key="DIALOG_X_ORIGIN" value="1203"/>
+		<item key="DIALOG_Y_ORIGIN" value="185"/>
 		<item key="DIALOG_WIDTH" value="414"/>
 		<item key="DIALOG_HEIGHT" value="454"/>
 		<item key="DIALOG_FONT_NAME" value="1|Segoe UI|9.0|0|WINDOWS|1|-15|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI"/>

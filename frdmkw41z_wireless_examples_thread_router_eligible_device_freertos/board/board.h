@@ -10,6 +10,7 @@
 #define _BOARD_H_
 
 #include "fsl_gpio.h"
+#include "clock_config.h"
 
 /*******************************************************************************
  * Definitions
@@ -125,6 +126,7 @@ extern "C" {
 #define BOARD_UART_IRQ_HANDLER LPUART0_IRQHandler
 #define BOARD_DEBUG_UART_BAUDRATE 115200
 #define BOARD_ACCEL_I2C_BASEADDR I2C1
+
 void hardware_init(void);
 
 /* Function to initialize ADC on board configuration. */
@@ -161,6 +163,50 @@ uint32_t BOARD_GetSpiClock(uint32_t instance);
 uint32_t BOARD_GetI2cClock(uint32_t instance);
 void BOARD_BLPEtoBLPI(void);
 void BOARD_BLPItoBLPE(void);
+
+/* Board led color mapping */
+#define LOGIC_LED_ON 0U
+#define LOGIC_LED_OFF 1U
+#define BOARD_LED_RED_GPIO GPIOC
+#define BOARD_LED_RED_GPIO_PORT PORTC
+#define BOARD_LED_RED_GPIO_PIN 1U
+#define BOARD_LED_GREEN_GPIO GPIOA
+#define BOARD_LED_GREEN_GPIO_PORT PORTA
+#define BOARD_LED_GREEN_GPIO_PIN 19U
+#define BOARD_LED_BLUE_GPIO GPIOA
+#define BOARD_LED_BLUE_GPIO_PORT PORTA
+#define BOARD_LED_BLUE_GPIO_PIN 18U
+
+#define LED_RED_INIT(output)                                  \
+    GPIO_WritePinOutput(BOARD_LED_RED_GPIO, BOARD_LED_RED_GPIO_PIN, output);\
+    BOARD_LED_RED_GPIO->PDDR |= (1U << BOARD_LED_RED_GPIO_PIN)  /*!< Enable target LED_RED */
+#define LED_RED_ON() \
+    GPIO_ClearPinsOutput(BOARD_LED_RED_GPIO, 1U << BOARD_LED_RED_GPIO_PIN) /*!< Turn on target LED_RED */
+#define LED_RED_OFF() \
+    GPIO_SetPinsOutput(BOARD_LED_RED_GPIO, 1U << BOARD_LED_RED_GPIO_PIN) /*!< Turn off target LED_RED */
+#define LED_RED_TOGGLE() \
+    GPIO_TogglePinsOutput(BOARD_LED_RED_GPIO, 1U << BOARD_LED_RED_GPIO_PIN) /*!< Toggle on target LED_RED */
+
+#define LED_GREEN_INIT(output)                                  \
+    GPIO_WritePinOutput(BOARD_LED_GREEN_GPIO, BOARD_LED_GREEN_GPIO_PIN, output);\
+    BOARD_LED_GREEN_GPIO->PDDR |= (1U << BOARD_LED_GREEN_GPIO_PIN)  /*!< Enable target LED_GREEN */
+#define LED_GREEN_ON() \
+    GPIO_ClearPinsOutput(BOARD_LED_GREEN_GPIO, 1U << BOARD_LED_GREEN_GPIO_PIN) /*!< Turn on target LED_GREEN */
+#define LED_GREEN_OFF() \
+    GPIO_SetPinsOutput(BOARD_LED_GREEN_GPIO, 1U << BOARD_LED_GREEN_GPIO_PIN) /*!< Turn off target LED_GREEN */
+#define LED_GREEN_TOGGLE() \
+    GPIO_TogglePinsOutput(BOARD_LED_GREEN_GPIO, 1U << BOARD_LED_GREEN_GPIO_PIN) /*!< Toggle on target LED_GREEN */
+
+#define LED_BLUE_INIT(output)                                  \
+    GPIO_WritePinOutput(BOARD_LED_BLUE_GPIO, BOARD_LED_BLUE_GPIO_PIN, output);\
+    BOARD_LED_BLUE_GPIO->PDDR |= (1U << BOARD_LED_BLUE_GPIO_PIN)  /*!< Enable target LED_BLUE */
+#define LED_BLUE_ON() \
+    GPIO_ClearPinsOutput(BOARD_LED_BLUE_GPIO, 1U << BOARD_LED_BLUE_GPIO_PIN) /*!< Turn on target LED_BLUE */
+#define LED_BLUE_OFF() \
+    GPIO_SetPinsOutput(BOARD_LED_BLUE_GPIO, 1U << BOARD_LED_BLUE_GPIO_PIN) /*!< Turn off target LED_BLUE */
+#define LED_BLUE_TOGGLE() \
+    GPIO_TogglePinsOutput(BOARD_LED_BLUE_GPIO, 1U << BOARD_LED_BLUE_GPIO_PIN) /*!< Toggle on target LED_BLUE */
+
 #if defined(__cplusplus)
 }
 #endif /* __cplusplus */
