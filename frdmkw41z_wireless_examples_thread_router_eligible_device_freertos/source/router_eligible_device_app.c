@@ -386,16 +386,16 @@ uint32_t dataLen
 	      Angle_update();
 	      Xval = RetX();
 	      Yval = RetY();
-	     // Zval = RetZ();
+	      Zval = RetZ();
 	      sprintf(stringNumeroX, "%d", Xval);
 	      sprintf(stringNumeroY, "%d", Yval);
-	  //  sprintf(stringNumeroZ, "%d", Zval);
+	      sprintf(stringNumeroZ, "%d", Zval);
 	      char FinalstringNumeroX[20];
 	      char FinalstringNumeroY[20];
-	    //  char FinalstringNumeroZ[20];
+	      char FinalstringNumeroZ[20];
 	      sprintf(FinalstringNumeroX, "X = %s", stringNumeroX);
 	      sprintf(FinalstringNumeroY, "Y = %s", stringNumeroY);
-	     // sprintf(FinalstringNumeroX, "Z = %s", stringNumeroX);
+	      sprintf(FinalstringNumeroZ, "Z = %s", stringNumeroZ);
 
 		  pMySession -> msgType=gCoapNonConfirmable_c;
 		  pMySession -> code= gCoapPOST_c;
@@ -403,7 +403,7 @@ uint32_t dataLen
 		  FLib_MemCpy(&pMySession->remoteAddrStorage,&gCoapDestAddress,sizeof(ipAddr_t));
 		  COAP_Send(pMySession, gCoapMsgTypeNonPost_c, FinalstringNumeroX, sizeof(FinalstringNumeroX));
 		  COAP_Send(pMySession, gCoapMsgTypeNonPost_c, FinalstringNumeroY, sizeof(FinalstringNumeroY));
-		//  COAP_Send(pMySession, gCoapMsgTypeNonPost_c, stringNumeroZ, sizeof(stringNumeroZ));
+		  COAP_Send(pMySession, gCoapMsgTypeNonPost_c, FinalstringNumeroZ, sizeof(FinalstringNumeroZ));
 	    }
 
 }
@@ -422,7 +422,7 @@ uint32_t dataLen
 	    {
 		    shell_write(" (Accel2) 'NON' packet received 'POST' with payload: ");
 		    shell_writeN(pData, dataLen);
-		   // shell_write("\r\n");
+		    shell_write("\r\n");
 	    }
 
 }

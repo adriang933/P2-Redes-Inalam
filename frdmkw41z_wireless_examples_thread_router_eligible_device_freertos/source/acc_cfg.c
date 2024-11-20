@@ -105,7 +105,7 @@ void BOARD_I2C_ReleaseBus(void) {
 static void Timer_Init(void) {
     
     tpm_config_t tpmInfo;
-    tpm_chnl_pwm_signal_param_t tpmParam[2];
+    tpm_chnl_pwm_signal_param_t tpmParam[3];
 
     tpmParam[0].chnlNumber = (tpm_chnl_t)BOARD_FIRST_TIMER_CHANNEL;
     tpmParam[0].level = kTPM_LowTrue;
@@ -115,9 +115,9 @@ static void Timer_Init(void) {
     tpmParam[1].level = kTPM_LowTrue;
     tpmParam[1].dutyCyclePercent = 0U;
 
-/*    tpmParam[2].chnlNumber = (tpm_chnl_t)BOARD_THIRD_TIMER_CHANNEL;
+    tpmParam[2].chnlNumber = (tpm_chnl_t)BOARD_THIRD_TIMER_CHANNEL;
     tpmParam[2].level = kTPM_LowTrue;
-    tpmParam[2].dutyCyclePercent = 0U;*/
+    tpmParam[2].dutyCyclePercent = 0U;
 
 
     TPM_GetDefaultConfig(&tpmInfo);
@@ -125,14 +125,14 @@ static void Timer_Init(void) {
 
     CLOCK_SetTpmClock(TIMER_CLOCK_MODE);
 
-    TPM_SetupPwm(BOARD_TIMER_BASEADDR, tpmParam, 2U, kTPM_EdgeAlignedPwm, 24000U, BOARD_TIMER_SOURCE_CLOCK);
+    TPM_SetupPwm(BOARD_TIMER_BASEADDR, tpmParam, 3U, kTPM_CombinedPwm, 24000U, BOARD_TIMER_SOURCE_CLOCK);
     TPM_StartTimer(BOARD_TIMER_BASEADDR, kTPM_SystemClock);
 }
 
 static void Board_UpdatePwm(uint16_t x, uint16_t y, uint16_t z) {
     TPM_UpdatePwmDutycycle(BOARD_TIMER_BASEADDR, (tpm_chnl_t)BOARD_FIRST_TIMER_CHANNEL, kTPM_CombinedPwm, x);
     TPM_UpdatePwmDutycycle(BOARD_TIMER_BASEADDR, (tpm_chnl_t)BOARD_SECOND_TIMER_CHANNEL, kTPM_CombinedPwm, y);
-  //  TPM_UpdatePwmDutycycle(BOARD_TIMER_BASEADDR, (tpm_chnl_t)BOARD_THIRD_TIMER_CHANNEL, kTPM_CombinedPwm, z);
+    TPM_UpdatePwmDutycycle(BOARD_TIMER_BASEADDR, (tpm_chnl_t)BOARD_THIRD_TIMER_CHANNEL, kTPM_CombinedPwm, z);
 }
 
 /* ------------ Inicializa acelerometro, llamarla en la aplicacion ------------------ */
@@ -226,7 +226,7 @@ void Angle_update (void) {
 
 	yData = (int16_t)((uint16_t)((uint16_t)sensorData.accelYMSB << 8) | (uint16_t)sensorData.accelYLSB) / 4U;
 
-	//zData = (int16_t)((uint16_t)((uint16_t)sensorData.accelZMSB << 8) | (uint16_t)sensorData.accelZLSB) / 4U;
+	zData = (int16_t)((uint16_t)((uint16_t)sensorData.accelZMSB << 8) | (uint16_t)sensorData.accelZLSB) / 4U;
 
 		xAngle = (int16_t)floor((double)xData * (double)dataScale * 90 / 8192);
 		if (xAngle < 0) {
@@ -250,7 +250,7 @@ void Angle_update (void) {
             yAngle = 0;
         }
 
-	/*	zAngle = (int16_t)floor((double)zData * (double)dataScale * 90 / 8192);
+		zAngle = (int16_t)floor((double)zData * (double)dataScale * 90 / 8192);
 		if (zAngle < 0) {
 			zAngle *= -1;
 		}
@@ -259,7 +259,7 @@ void Angle_update (void) {
 		}
         if (zAngle < ANGLE_LOWER_BOUND) {
             zAngle = 0;
-        }*/
+        }
        // Board_UpdatePwm(xAngle, yAngle, zAngle);
 	//}
 }
