@@ -200,7 +200,7 @@ Public macros
 
 /*! The default network name */
 #ifndef THR_NETWORK_NAME
-    #define THR_NETWORK_NAME                           {14, "Kinetis_Thread"}
+    #define THR_NETWORK_NAME                           {9, "Team3_SyA"}
 #endif
 
 /*! The default vendor name */

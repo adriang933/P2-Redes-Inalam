@@ -307,14 +307,30 @@ uint32_t dataLen
 {
   if (gCoapNonConfirmable_c == pSession->msgType)
   {
-      shell_write(" (R2) 'NON' packet received 'POST' with payload: ");
-      shell_writeN(pData, dataLen);
-      shell_write("\r\n");
-      char addrStr[INET6_ADDRSTRLEN];
-      ntop(AF_INET6, (ipAddr_t*)&pSession->remoteAddrStorage.ss_addr, addrStr, INET6_ADDRSTRLEN);
-      shell_printf("\tFrom IPv6 Address: %s\n\r", addrStr);
-      shell_write("\r\n");
+	  if (gCoapPOST_c == pSession->code)
+	  {
+		  shell_write(" (R2) 'NON' packet received 'POST' with payload: ");
+		  shell_writeN(pData, dataLen);
+		  shell_write("\r\n");
+		  char addrStr[INET6_ADDRSTRLEN];
+		  ntop(AF_INET6, (ipAddr_t*)&pSession->remoteAddrStorage.ss_addr, addrStr, INET6_ADDRSTRLEN);
+		  shell_printf("\tFrom IPv6 Address: %s\n\r", addrStr);
+		  shell_write("\r\n");
+	  }
+  }
 
+  if (gCoapConfirmable_c == pSession->msgType)
+  {
+	  if (gCoapPOST_c == pSession->code)
+	  {
+		  shell_write(" (R2) 'CON' packet received 'POST' with payload: ");
+		  shell_writeN(pData, dataLen);
+		  shell_write("\r\n");
+		  char addrStr[INET6_ADDRSTRLEN];
+		  ntop(AF_INET6, (ipAddr_t*)&pSession->remoteAddrStorage.ss_addr, addrStr, INET6_ADDRSTRLEN);
+		  shell_printf("\tFrom IPv6 Address: %s\n\r", addrStr);
+		  shell_write("\r\n");
+	  }
   }
 }
 
@@ -330,11 +346,16 @@ uint32_t dataLen
 	coapSession_t *pMySession = NULL;
 	pMySession = COAP_OpenSession(mAppCoapInstId);
 	COAP_AddOptionToList(pMySession,COAP_URI_PATH_OPTION, APP_ACC2_URI_PATH,SizeOfString(APP_ACC2_URI_PATH));
-	 if (gCoapGET_c == pSession->code)
-	    {
-	      char stringNumeroX[12];
-	      char stringNumeroY[12];
-	      char stringNumeroZ[12];
+	char stringNumeroX[12];
+    char stringNumeroY[12];
+    char stringNumeroZ[12];
+    char FinalstringNumeroX[20];
+    char FinalstringNumeroY[20];
+    char FinalstringNumeroZ[20];
+	  if (gCoapNonConfirmable_c == pSession->msgType)
+	  {
+		  if (gCoapGET_c == pSession->code)
+		  {
 	      shell_write("(Accel)'NON' packet received 'GET' Posting ACCEL values");
 	      shell_write("\r\n");
 	      Angle_update();
@@ -344,9 +365,6 @@ uint32_t dataLen
 	      sprintf(stringNumeroX, "%d", Xval);
 	      sprintf(stringNumeroY, "%d", Yval);
 	      sprintf(stringNumeroZ, "%d", Zval);
-	      char FinalstringNumeroX[20];
-	      char FinalstringNumeroY[20];
-	      char FinalstringNumeroZ[20];
 	      sprintf(FinalstringNumeroX, "X = %s", stringNumeroX);
 	      sprintf(FinalstringNumeroY, "Y = %s", stringNumeroY);
 	      sprintf(FinalstringNumeroZ, "Z = %s", stringNumeroZ);
@@ -359,7 +377,34 @@ uint32_t dataLen
 		  COAP_Send(pMySession, gCoapMsgTypeNonPost_c, FinalstringNumeroY, sizeof(FinalstringNumeroY));
 		  COAP_Send(pMySession, gCoapMsgTypeNonPost_c, FinalstringNumeroZ, sizeof(FinalstringNumeroZ));
 	    }
+	  }
 
+	  if (gCoapConfirmable_c == pSession->msgType)
+	  	  {
+	  		  if (gCoapGET_c == pSession->code)
+	  		  {
+	  		      shell_write("(Accel)'CON' packet received 'GET' Posting ACCEL values");
+	  		      shell_write("\r\n");
+	  		      Angle_update();
+	  		      Xval = RetX();
+	  		      Yval = RetY();
+	  		      Zval = RetZ();
+	  		      sprintf(stringNumeroX, "%d", Xval);
+	  		      sprintf(stringNumeroY, "%d", Yval);
+	  		      sprintf(stringNumeroZ, "%d", Zval);
+	  		      sprintf(FinalstringNumeroX, "X = %s", stringNumeroX);
+	  		      sprintf(FinalstringNumeroY, "Y = %s", stringNumeroY);
+	  		      sprintf(FinalstringNumeroZ, "Z = %s", stringNumeroZ);
+
+	  			  pMySession -> msgType=gCoapNonConfirmable_c;
+	  			  pMySession -> code= gCoapPOST_c;
+	  			  pMySession -> pCallback =NULL;
+	  			  FLib_MemCpy(&pMySession->remoteAddrStorage,&gCoapDestAddress,sizeof(ipAddr_t));
+	  			  COAP_Send(pMySession, gCoapMsgTypeNonPost_c, FinalstringNumeroX, sizeof(FinalstringNumeroX));
+	  			  COAP_Send(pMySession, gCoapMsgTypeNonPost_c, FinalstringNumeroY, sizeof(FinalstringNumeroY));
+	  			  COAP_Send(pMySession, gCoapMsgTypeNonPost_c, FinalstringNumeroZ, sizeof(FinalstringNumeroZ));
+	  	    }
+	  	  }
 }
 
 
@@ -380,6 +425,13 @@ uint32_t dataLen
 		    shell_writeN(pData, dataLen);
 		    shell_write("\r\n");
 	    }
+
+	 if (gCoapConfirmable_c ==  pSession->msgType)
+	   {
+			shell_write(" (Accel2) 'CON' packet received 'POST' with payload: ");
+			shell_writeN(pData, dataLen);
+			shell_write("\r\n");
+	   }
 
 		ntop(AF_INET6, (ipAddr_t*)&pSession->remoteAddrStorage.ss_addr, addrStr, INET6_ADDRSTRLEN);
 		shell_printf("\tFrom IPv6 Address: %s\n\r", addrStr);
